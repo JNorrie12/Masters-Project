@@ -2,8 +2,8 @@
 *.pdf
 *.zip
 *.png
+*.jpg
 *.json
-*.txt
 
 *.pyc
 

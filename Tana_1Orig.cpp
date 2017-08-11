@@ -5,6 +5,7 @@
 //  Created by Lorenzo Palmieri on 05/01/16.
 //
 //
+//
 
 #include "Tana+.hpp" // Include all libraries.
 using namespace std;
@@ -20,7 +21,7 @@ mt19937 eng(rd()); // seed the generator.
 // const double theta = 0.25, pmut = 0.2, pkill = 0.4, c = 40, mu = 0.007;
 
 const int generations = 10000, L = 9, No = 1000, K = 1, genomes = 512;
-const double theta = 0.25, pmut = 0.007, pkill = 0.3, c = 10, mu = 0.005;
+const double theta = 0.25, pmut = 0.005, pkill = 0.3, c = 10, mu = 0.005;
 const double pi = 3.1415927;
 // -----------------------------------
 //        DECLARE FUNCTIONS

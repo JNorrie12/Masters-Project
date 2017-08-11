@@ -18,14 +18,14 @@ mt19937 eng(rd()); // seed the generator.
 // -----------------------------------
 //       INITIALIZE PARAMETERS
 // -----------------------------------
-const int generations = 10000, L = 8, No = 1000, K = 1, genomes = 256;
-const double theta = .75, pmut = 0.025, pkill = 0.4, c = 40, mu = 0.007;
+// const int generations = 10000, L = 8, No = 1000, K = 1, genomes = 256;
+// const double theta = .75, pmut = 0.025, pkill = 0.4, c = 40, mu = 0.007;
 
 // const int generations = 10000, L = 9, No = 1000, K = 1, genomes = 512;
 // const double theta = 0.75, pmut = 0.02, pkill = 0.25, c = 50, mu = 0.05;
 
-// const int generations = 10000, L = 9, No = 1000, K = 1, genomes = 512;
-// const double theta = 0.25, pmut = 0.005, pkill = 0.3, c = 10, mu = 0.005;
+const int generations = 10000, L = 9, No = 1000, K = 1, genomes = 512;
+const double theta = 0.25, pmut = 0.005, pkill = 0.3, c = 10, mu = 0.005;
 
 const double pi = 3.1415927;
 // -----------------------------------
@@ -64,65 +64,94 @@ existent-   List of existing species if 1,3 exist, existenet={1,3}
 N-          Moving total population 
 tau-        Generation size 
 */
+int Tstart = 1, T =100;
+
 int main(){
-    array <int, genomes> species;  //¬
-    vector<int> existent;          
-    int i,N, count_gen, step;
-    double J[genomes][genomes]={};
-    double tau;
-    
-    Create_J(J);
-    // cout << J[4][4] << endl;
-    for(int k=0; k<genomes; k++){
-        for(int j=0; j < genomes; j++){
-            cout << J[j][k] << "\t";
-        }
-        cout << endl;
-    }
-    // set all elements of species to zero and initialize population at random.
-    zerovec(species); //¬
-    initial_pop(species); //¬
-    N = No;
-    tau = round(double(N)/pkill);
-    // Initialize a vector which contains the label of all existent species.
-    
-    for (i=0; i<genomes; i++) {
-        if (species[i] != 0) {
-            existent.push_back(i); //adds a new element at end of vector
-        }
-    }
-    // create output files.
-    ofstream mydata;
-    mydata.open("data_fast.txt");
-    ofstream spec;
-    spec.open("species_fast.txt");
-    
-    count_gen = 0;
-    step = 0;
-    while (count_gen < generations) {
-        step++;
-        // Try to kill an individual.
-        Kill(species, existent, N);
-        // Try to reproduce an individual
-        Baby(species, existent, J, N);
-        if(step == tau){
-            count_gen++;
-            step=0;
-            tau = round(double(N)/pkill);
-            mydata << count_gen << "\t" << N << endl;
-            // generation number --- population
-            for (i=0; i<existent.size(); i++) {
-                spec << existent[i] << "\t";
+    for(int k = Tstart; k < Tstart+T; k++){
+        array <int, genomes> species;  //¬
+        vector<int> existent;          
+        int i,N, count_gen, step;
+        double J[genomes][genomes]={};
+        double tau;
+        
+        Create_J(J);
+        // cout << J[4][4] << endl;
+        for(int k=0; k<genomes; k++){
+            for(int j=0; j < genomes; j++){
+                cout << J[j][k] << "\t";
             }
-            spec << endl;
-            
-            if (count_gen % (generations/10) == 0) {
-                cout << count_gen << endl;
+            cout << endl;
+        }
+        // set all elements of species to zero and initialize population at random.
+        zerovec(species); //¬
+        initial_pop(species); //¬
+        N = No;
+        tau = round(double(N)/pkill);
+        // Initialize a vector which contains the label of all existent species.
+        
+        for (i=0; i<genomes; i++) {
+            if (species[i] != 0) {
+                existent.push_back(i); //adds a new element at end of vector
             }
         }
-    }
-    mydata.close();
+        string str = to_string(k);
+        
+        ofstream mat;
+        mat.open(str + "mat.txt");
+        for(int i=0; i < genomes; i++){
+            mat << J[i][0];
+            for(int j=1; j < genomes; j++){
+                mat << "\t" << J[i][j];
+            }
+            mat << endl;
+        }
+        mat.close();
+
+        // create output files.
+        ofstream mydata;
+        mydata.open(str +"data_fast.txt");
+        ofstream spec;
+        spec.open(str + "species_fast.txt");
+        ofstream seppop;
+        seppop.open(str + "seppop.txt");
+        
+        count_gen = 0;
+        step = 0;
+        while (count_gen < generations) {
+            step++;
+            // Try to kill an individual.
+            Kill(species, existent, N);
+            // Try to reproduce an individual
+            Baby(species, existent, J, N);
+            if(step == tau){
+                count_gen++;
+                step=0;
+                tau = round(double(N)/pkill);
+                mydata << count_gen << "\t" << N << endl;
+                // generation number --- population
+                
+                seppop << count_gen;
+                for(i=0; i<genomes; i++){
+                seppop << "\t" << species[i]; 
+                }
+                seppop << endl;
+
+
+                for (i=0; i<existent.size(); i++) {
+                    spec << existent[i] << "\t";
+                }
+                spec << endl;
+
+                if (count_gen % (generations/10) == 0) {
+                    cout << count_gen << endl;
+                }
+            }
+        }
+        mydata.close();
     spec.close();
+    seppop.close();
+    cout << k << endl;
+    }
 }
 
 // -----------------------------------

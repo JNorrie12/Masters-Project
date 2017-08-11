@@ -4,7 +4,7 @@
 *.png
 *.jpg
 *.json
-
+*.txt
 *.pyc
 
 #Latex

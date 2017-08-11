@@ -1,3 +1,4 @@
+
 #include "Tana+.hpp";
 #include <string> ;
 using namespace std;
@@ -11,7 +12,12 @@ mt19937 eng(rd());
 // const double theta = .25, pmut = 0.005, pkill = 0.1, c = 2, mu = 0.007;
 
 const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
-const double theta = .25, pmut = 0.005, pkill = 0.2, c = 1.3, mu = 0.007;
+const double theta = .25, pmut = 0.005, pkill = 0.2, c = 0, mu = 0.007;
+//====================================================================================
+// const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
+// const double theta = .25, pmut = 0.005, pkill = 0.2, c = 1.3, mu = 0.007;
+//===================================================================================
+
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.05, c = 10, mu = 0.007;
 
@@ -26,20 +32,20 @@ T set_species (T &vec) {
         vec[i]=0;
     }
 
-    int select1 = choose_in_range(0,genomes1-1);
-    int select2 = choose_in_range(genomes1, genomes-1);
+    // int select1 = choose_in_range(0,genomes1-1);
+    // int select2 = choose_in_range(genomes1, genomes-1);
 
-    vec[select1] += No1;
-    vec[select2] += No2; 
-    // int select;
-    // for (int i=0; i < No1; i++) {
-        // select = choose_in_range(0,genomes1-1);
-        // vec[select] += 1;
-    // }
-    // for(int j=0; j < No2; j++){
-        // select = choose_in_range(genomes1, genomes-1);
-        // vec[select] += 1;
-    // }
+    // vec[select1] += No1;
+    // vec[select2] += No2; 
+    int select;
+    for (int i=0; i < No1; i++) {
+        select = choose_in_range(0,genomes1-1);
+        vec[select] += 1;
+    }
+    for(int j=0; j < No2; j++){
+        select = choose_in_range(genomes1, genomes-1);
+        vec[select] += 1;
+    }
     return (vec);
 }
 
@@ -242,7 +248,7 @@ void Baby(array<int,genomes> &spec ,vector<int> &ex, double (&J)[genomes][genome
     // }    
 }
 
-int Tstart = 1 , T = 100;
+int Tstart = 101 , T = 200;
 
 //----------------------------------------
 int main(){
@@ -294,6 +300,8 @@ int main(){
         pop.open(str + "pop.txt");
         ofstream seppop;
         seppop.open(str + "seppop.txt");
+        // ofstream Hpoff;
+        // Hpoff.open(str + "Hpoff.txt");
 
         count_gen = 0;
         step = 0;
@@ -303,6 +311,7 @@ int main(){
             Kill(species, existent, N1, N2);
             //BABY FUNCTION
             Baby(species, existent, J, N1, N2);
+            
             // cout << "WHAT" << endl;
             if(step == tau){
                 count_gen++;
@@ -324,6 +333,7 @@ int main(){
                 }
                 seppop << endl;
 
+                // Hpoff << H << "\t" << poff <<endl;
                 // mydata << count_gen << "\t" << N << endl;
                 // generation number --- population
                 for (i=0; i<existent.size(); i++) {

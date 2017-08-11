@@ -1,17 +1,20 @@
 
 %--------------------------------------------
-J=importdata('2mat.txt');
-B=importdata('2pop.txt');
+J=importdata('1mat.txt');
+B=importdata('1pop.txt');
 x1= B(:, 1);
 x2= B(:, 2);
 x3= B(:, 3);
 x4= B(:, 4);
 
 plot(x1, x2, 'b', x1, x3, 'r', x1, x4, 'g');
+figure
+loglog(x1, x2, 'b', x1, x3, 'r', x1, x4, 'g');
+
 xlabel('Generations');
 ylabel('Population')
 %--------------------------------------------
-A=importdata('2seppop.txt');
+A=importdata('1seppop.txt');
 [n,m]=size(A);
 
 D=[0];
@@ -61,10 +64,9 @@ for i = 1:n
    CCom2(i,1)= Com2/x3(i,1);
    
 end
-display("BOOP");
-figure
-scatter(C, D, '.', 'b' );
-hold on;
-scatter(E, F, '.', 'r');
-hold on;
-plot(x1, CCom1,'g' , x1, CCom2, 'g');
+% figure
+% scatter(C, D, '.', 'b' );
+% hold on;
+% scatter(E, F, '.', 'r');
+% hold on;
+% plot(x1, CCom1,'g' , x1, CCom2, 'g');

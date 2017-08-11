@@ -10,7 +10,7 @@ mt19937 eng(rd());
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.1, c = 2, mu = 0.007;
 
-const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
+const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 3000;
 const double theta = .25, pmut = 0.005, pkill = 0.2, c = 1.3, mu = 0.007;
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.05, c = 10, mu = 0.007;
@@ -242,21 +242,21 @@ void Baby(array<int,genomes> &spec ,vector<int> &ex, double (&J)[genomes][genome
     // }    
 }
 
-int Tstart = 1 , T = 100;
+int Tstart = 1 , T = 3;
 
 //----------------------------------------
 int main(){
+           
     
-        
-        array <int, genomes> species;
-        set_species(species);
-        
-        
         double J[genomes][genomes]={}; //creates 0 vector
         // double J[genomes][genomes]={{0,0, 0.5, 0},{0,0,0.52,0},{0.7,0.4,0},{0,0,0,0}};
     	Create_J(J);
         
     for(int k = Tstart; k < Tstart+T; k++){
+
+        array <int, genomes> species;
+        set_species(species);
+ 
         vector <int> existent;
         int i, N1, N2, count_gen, step;
 

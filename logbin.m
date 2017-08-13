@@ -1,6 +1,6 @@
-v=[3, 5, 7, 13];
-norm=[200,200,400,400];
-T=4;
+v=[3, 5, 7, 13, 16, 20];
+norm=[200,200,400,400, 365, 345];
+T=6;
 
 sensitivity ='1';
 
@@ -14,7 +14,7 @@ for k =1:T
 %------------------------------------
     %LOG-BINNING%
     i=1; %Incemenet start
-    a= 1.3; %Increment increase size e.g i_2=a*i, i_3=a*a*i, ...
+    a= 1.4; %Increment increase size e.g i_2=a*i, i_3=a*a*i, ...
     b= 1; %Original bin width
 
 %-------------------------------------
@@ -73,8 +73,8 @@ for k =1:T
 %         hold on;
     end
  
-    loglog(x, exp(coeff(1,2))*x.^coeff(1,1), 'k--');
-    hold on;
+    %loglog(x, exp(coeff(1,2))*x.^coeff(1,1), 'b--');
+%     hold on;
     power(k,1)=coeff(1,1);
     loglog(bin_middle , mean, 'x'); 
     hold on;
@@ -92,6 +92,6 @@ for k =1:T
 end   
 
 figure;
-plot(v/10, power+1);
+plot(v/10, power+1, 'o');
 figure;
-loglog(v/10, power);
+loglog(v/10, power, 'o');

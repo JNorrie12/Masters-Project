@@ -1,9 +1,9 @@
-v=[3, 5, 7, 13];
-norm=[200,200,400,400];
-T=4;
-sensitivity = '10';
+v=[3, 5, 7, 13, 16, 20];
+norm=[200,200,400,400, 365, 345];
+T=6;
+sensitivity = '1';
 
-for j =4:T
+for j =1:T
     str= int2str(v(1,j));
     count=importdata(strcat(sensitivity ,'count', str, '.mat'));
     edges=importdata(strcat(sensitivity ,'edges', str, '.mat'));

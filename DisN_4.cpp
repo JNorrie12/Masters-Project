@@ -252,6 +252,7 @@ int Tstart = 1 , T = 200;
 
 //----------------------------------------
 int main(){
+    int extinctions = 0;
     for(int k = Tstart; k < Tstart+T; k++){
         
         array <int, genomes> species;
@@ -300,8 +301,6 @@ int main(){
         pop.open(str + "pop.txt");
         ofstream seppop;
         seppop.open(str + "seppop.txt");
-        // ofstream Hpoff;
-        // Hpoff.open(str + "Hpoff.txt");
 
         count_gen = 0;
         step = 0;
@@ -320,9 +319,8 @@ int main(){
 
                 if(N1==0 || N2==0){
                     cout << "extinction" << endl;
-                }
-                if(N1==0 && N2==0){
-                    exit(EXIT_FAILURE);
+                    extinctions++;
+                    count_gen = generations + 1;
                 }
                 pop << count_gen << "\t" <<N1 << "\t" << N2 << "\t" << N1 + N2 <<endl;
 
@@ -344,6 +342,7 @@ int main(){
         spec.close();            
         pop.close();
         seppop.close();
-        cout << k << endl;
+        cout << extinctions << "in" << k << endl;
     }
+cout << extinctions << "Per" << T;
 }

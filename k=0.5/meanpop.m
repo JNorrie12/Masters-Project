@@ -14,8 +14,10 @@ mean_pop= pop/T;
 x=linspace(1,10000,10000);
 plot(x ,mean_pop);
 figure
-xlabel('Generation');
-ylabel('Population');
 loglog(x, mean_pop);
 hold on;
-loglog([3,3],[150,500], 'k--');
+xlabel('Generation');
+ylabel('Population');
+loglog([200,200],[150,580], 'r--');
+hold on;
+loglog([4,4],[150,580], 'k--');

@@ -1,4 +1,4 @@
-T=200; %Number of simulations
+T=365; %Number of simulations
 
 pop=zeros(10000, 3);
 for j =1:T
@@ -14,8 +14,9 @@ mean_pop= pop/T;
 x=linspace(1,10000,10000);
 plot(x ,mean_pop);
 figure
-xlabel('Generation');
-ylabel('Population');
 loglog(x, mean_pop);
 hold on;
-loglog([3,3],[150,500], 'k--');
+xlabel('Generation');
+ylabel('Population');
+loglog([42,42], [100,810], 'r--');
+loglog([2,2], [100,810], 'k--');

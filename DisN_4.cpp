@@ -12,7 +12,7 @@ mt19937 eng(rd());
 // const double theta = .25, pmut = 0.005, pkill = 0.1, c = 2, mu = 0.007;
 
 const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
-const double theta = .25, pmut = 0.005, pkill = 0.2, c = 3, mu = 0.007;
+const double theta = .25, pmut = 0.005, pkill = 0.2, c = 1, mu = 0.007;
 //====================================================================================
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.2, c = 1.3, mu = 0.007;
@@ -20,6 +20,9 @@ const double theta = .25, pmut = 0.005, pkill = 0.2, c = 3, mu = 0.007;
 
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.05, c = 10, mu = 0.007;
+
+int Tstart = 1, T = 400;
+
 
 const double pi = 3.1415927;
 const int genomes= genomes1+ genomes2; 
@@ -248,7 +251,6 @@ void Baby(array<int,genomes> &spec ,vector<int> &ex, double (&J)[genomes][genome
     // }    
 }
 
-int Tstart = 1 , T = 200;
 
 //----------------------------------------
 int main(){

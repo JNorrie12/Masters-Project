@@ -16,7 +16,7 @@ for t = 1: T
     
    SP=importdata( strcat(str , 'seppop.txt'));
     
-%    [n,m] = size(S);
+    [n,m] = size(S);
         
    bool=false;
    [M1,I1]=max(SP(1,2:257));

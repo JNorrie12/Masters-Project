@@ -1,4 +1,4 @@
-x=50; %Sensitivity
+x=10; %Sensitivity
 z= 0.05; %Threshold
 %----------------------------
 edges=zeros(10001,1);
@@ -8,14 +8,21 @@ for j = 1:10001
 end
 
 %Setting up------------------
-events=[0]; 
-ends = [0];
-couplings=[0];
+ends = 0;
+endsrefined=0;
+couplings=0;
 w=0;
+nonex=0;
+ex=0;
 
-T = 164;
+T = 400;
 for t = 1: T
-    
+    if n==10000
+        nonex=nonex+1;
+    else
+        ex=ex+1;
+    end
+       
    str = int2str(t);
     
    SP=importdata( strcat(str , 'seppop.txt'));
@@ -23,7 +30,6 @@ for t = 1: T
     
    [n,m] = size(SP);
    
-   if n ==10000
    bool=false;
    [M1,I1]=max(SP(1,2:257));
    [N1,J1]=max(SP(1,258:513));  
@@ -33,6 +39,7 @@ for t = 1: T
    pop=zeros(2,1);
    for k =1:x:n
         
+       
         [M2,I2]=max(SP(k,2:257));
         [N2,J2]=max(SP(k,258:513));
         
@@ -56,11 +63,14 @@ for t = 1: T
                 %coupling
                 w=w + J(I2, 256 + J2) + J(256 + J2, I2); %No need for I1-2, since I1 is in SP(2:257)
                 couplings=cat(1,couplings, w);
-                disp(J2);
-                disp(I2);
-                
+%                 disp(J2);
+%                 disp(I2);
                 
                 ends=cat(1,ends, k);
+                
+                if n==10000
+                    endsrefined=cat(1,endsrefined,k) ;
+                end
             end
         end
      
@@ -69,25 +79,29 @@ for t = 1: T
         J1 = J2;
         N1 = N2;
    end
-   end
 disp(t);
 end
 
-% [count,edge]=histcounts(events, edges);
 
 [count2, gede]=histcounts(ends, edges);
- 
+[count3, edge]=histcounts(endsrefined, edges);
+
      normcount = count2/x; %Normalise
-     meancount = count2/T; %Mean
+     meancount2 = count2/T; %Mean
+     meancount3 = count3/nonex;
+     
 
     bin_middle = zeros(10000,1);
 for e = 1:10000
     bin_middle(e,1)=sqrt(edges(e,1)*edges(e+1,1));
 end
 % 
- plot(bin_middle, meancount);
+ plot(bin_middle, meancount2);
  figure
- loglog(bin_middle, meancount, 'x');
- cummean= cumsum(meancount);
+ loglog(bin_middle, meancount2, 'x');
+ hold on;
+ loglog(bin_middle, meancount3, 'x');
+ 
+ cummean= cumsum(meancount2);
  figure
  plot(bin_middle, cummean);

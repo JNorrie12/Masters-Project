@@ -1,8 +1,8 @@
-v=[3, 5, 7,10, 13, 16, 20, 30, 50];
-norm=[200,200,400,400,400, 365, 345, 428, 224];
-T=9;
+v=['n', 'r'];
+norm=[400, 224];
+T=2;
 
-% colors= [0 ,0.4470, 0.7410; 0.85, 0.325, 0.0980; 0.9290, 0.6940, 0.1250;0.494,0.1840,0.5560; 0.4660, 0.6740, 0.1880];
+colors= [0 ,0.4470, 0.7410; 0.85, 0.325, 0.0980; 0.9290, 0.6940, 0.1250;0.494,0.1840,0.5560];
 sensitivity ='10';
 
 power=zeros(T,1);
@@ -10,12 +10,12 @@ f1 = figure;
 f2 = figure;
 f3 = figure;
 for k =1:T
-    str= int2str(v(1,k));
-    ends=importdata(strcat(sensitivity ,'ends', str, '.mat'));
+    str= v(1,k);
+    ends=importdata(strcat(sensitivity, str ,'ends50.mat'));
 %------------------------------------
     %LOG-BINNING%
     i=1; %Incemenet start
-    a= 1.4; %Increment increase size e.g i_2=a*i, i_3=a*a*i, ...
+    a= 1.3; %Increment increase size e.g i_2=a*i, i_3=a*a*i, ...
     b= 1; %Original bin width
 
 %-------------------------------------
@@ -69,12 +69,7 @@ for k =1:T
     %FITTING%    
     y= log(bin_middle);
     z=log(mean);
-    coeff=polyfit(y(g:end,1).', z(1,g:end),1);
-    if v(1,k)==50
-        disp('B');
-        coeff(1,1)=-0.910;
-    end
-    
+    coeff=polyfit(y(first+1:end,1).', z(1,first+1:end),1);
     x=linspace(1,10000,10000);
     
     set(0, 'CurrentFigure', f1);
@@ -87,12 +82,10 @@ for k =1:T
 %         hold on;
 %     end
  
-%      loglog(x, exp(coeff(1,2))*x.^coeff(1,1), 'Color', colors(k,:));
-    loglog(x, exp(coeff(1,2))*x.^coeff(1,1));
-     hold on;
+    loglog(x, exp(coeff(1,2))*x.^coeff(1,1), 'Color', colors(k,:));
+    hold on;
     power(k,1)=coeff(1,1);
-    loglog(bin_middle , mean, 'x'); 
-%     loglog(bin_middle , mean, 'x', 'Color', colors(k,:)); 
+    loglog(bin_middle , mean, 'x', 'Color', colors(k,:)); 
     hold on;
     xlim([10 10000]);
 %----------------------------------------------------
@@ -107,10 +100,8 @@ for k =1:T
     loglog(bin_middle./(exp(coeff(1,2))*bin_middle.^(coeff(1,1))), collapse, 'x');
     hold on;
 end   
-v=cat(2,0,v);
-power=cat(1,0,power);
 
 figure;
-plot(v(1,1:T+1)/10, power+1, 'o');
+plot(v(1,1:T)/10, power+1, 'o');
 figure;
-plot(v(1,1:T+1)/10, power, 'o');
+plot(v(1,1:T)/10, power, 'o');

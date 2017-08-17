@@ -111,6 +111,6 @@ v=cat(2,0,v);
 power=cat(1,0,power);
 
 figure;
-plot(v(1,1:T+1)/10, power+1, 'o');
+plot(v(1,1:T)/10, power+1, 'o');
 figure;
-plot(v(1,1:T+1)/10, power, 'o');
+plot(v(1,1:T)/10, power, 'o');

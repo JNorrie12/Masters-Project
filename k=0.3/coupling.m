@@ -1,10 +1,12 @@
-x=50; %Sensitivity
+x=10; %Sensitivity
 z= 0.05; %Threshold
+bin_width=100;
 %----------------------------
-edges=zeros(10001,1);
-for j = 1:10001
+edges=zeros(10000/bin_width + 1,1);
+edges(1,1)=0;
+for j = 2:10000/bin_width + 1
    
-    edges(j,1)=j;
+    edges(j,1)=edges(j-1,1)+ bin_width;
 end
 
 %Setting up------------------
@@ -12,7 +14,7 @@ events=[0];
 ends = [0];
 couplings=[0];
 w=0;
-
+zeroes=0;
 T = 200;
 for t = 1: T
     
@@ -26,6 +28,7 @@ for t = 1: T
    bool=false;
    [M1,I1]=max(SP(1,2:257));
    [N1,J1]=max(SP(1,258:513));  
+  
    
    start=zeros(2,1);
    pop=zeros(2,1);
@@ -34,16 +37,12 @@ for t = 1: T
         [M2,I2]=max(SP(k,2:257));
         [N2,J2]=max(SP(k,258:513));
         
-        disp(SP(k, 1+I2));
-        disp(SP(k, 257 + J2));
-        
         if (I1 ~= I2 || J1 ~= J2) && (bool==false)         
             start(1,1)=1 + I1;
             start(2,1)=257 + J1;
             bool = true; 
            
             %coupling
-            w = -J(I1, 256 + J1)-J(256 + J1, I1);
             
         end
         
@@ -55,13 +54,19 @@ for t = 1: T
             
             if (SP(k,start(1,1))< pop(1,1)*z) || (SP(k,start(2,1))< pop(2,1)*z)
                 %coupling
-                w=w + J(I2, 256 + J2) + J(256 + J2, I2); %No need for I1-2, since I1 is in SP(2:257)
-                
+                w=J(I2, 256 + J2) + J(256 + J2, I2)- J(start(1,1)-1, start(2,1)-1)-J(start(2,1)-1, start(1,1)-1) ; %No need for I1-2, since I1 is in SP(2:257)
                 couplings=cat(1,couplings, w);
+                if J(I2, 256 + J2)==0 || J(256 + J2, I2)==0
+                zeroes=cat(1,zeroes, k);
+                end
+                
+%                 disp(J2);
+%                 disp(I2);
+                disp(J(I2, 256 + J2));
+                disp(J(256 + J2, I2));
+                
                 
                 ends=cat(1,ends, k);
-                
-                
             end
         end
      
@@ -74,22 +79,35 @@ for t = 1: T
 disp(t);
 end
 
-% [count,edge]=histcounts(events, edges);
-
 [count2, gede]=histcounts(ends, edges);
  
      normcount = count2/x; %Normalise
      meancount = count2/T; %Mean
 
-    bin_middle = zeros(10000,1);
-for e = 1:10000
+    bin_middle = zeros(10000/bin_width,1);
+for e = 1:10000/bin_width
     bin_middle(e,1)=sqrt(edges(e,1)*edges(e+1,1));
 end
-% 
- plot(bin_middle, meancount);
- figure
- loglog(bin_middle, meancount, 'x');
- figure
- cummean= cumsum(meancount);
- figure
- plot(bin_middle, cummean);
+
+[A,I]=sort(ends);
+sorted_couples=zeros(max(I),1);
+
+for s=1:max(I)
+    sorted_couples(s,1)=couplings(I(s,1),1);
+end
+
+histo=zeros(10000/bin_width,1);
+for f=1:max(I)
+    for e=1:10000/bin_width
+        if (A(f) >= edges(e,1)) && (A(f) < edges(e+1,1));
+           disp(edges(e,1));
+           disp(A(f));
+           disp(edges(e+1,1));
+           histo(e,1)=histo(e,1) + sorted_couples(f,1);
+           break
+        end
+            
+    end
+end
+histo=histo./(count2.');
+plot(bin_middle, histo);

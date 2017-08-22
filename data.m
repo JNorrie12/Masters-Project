@@ -1,9 +1,9 @@
 v=[0, 3, 5, 7, 10, 13, 16, 20, 30, 50];
 norm=[200, 200,200,400,400, 400, 365, 345, 428, 164];
-T=1;
+T=5;
 sensitivity = '10';
 
-for j =6:6
+for j =1:T
     str= int2str(v(1,j));
     count=importdata(strcat(sensitivity ,'count', str, '.mat'));
     edges=importdata(strcat(sensitivity ,'edges', str, '.mat'));
@@ -21,8 +21,8 @@ for j =6:6
     loglog(bin_middle, mean, 'x');
     hold on;
     disp('BLOOP');
-    figure
-    plot(bin_middle, mean);
+%     figure
+%     plot(bin_middle, mean);
 
     %-----------------------------------
 %Moving average
@@ -37,11 +37,11 @@ for j =6:6
  
     end
 
-    loglog(bin_middle, mov);
-    
+%    loglog(bin_middle, mov);
+%     hold on;
     
 end
-
+xlim([5,160]);
 cummean= cumsum(mean);
 figure
 plot(bin_middle, cummean);

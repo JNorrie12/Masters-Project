@@ -1,7 +1,7 @@
 
 %--------------------------------------------
-J=importdata('1mat.txt');
-B=importdata('1pop.txt');
+J=importdata('5mat.txt');
+B=importdata('5pop.txt');
 x1= B(:, 1);
 x2= B(:, 2);
 x3= B(:, 3);
@@ -11,7 +11,7 @@ plot(x1, x2, 'b', x1, x3, 'r', x1, x4, 'g');
 xlabel('Generations');
 ylabel('Population')
 %--------------------------------------------
-A=importdata('1seppop.txt');
+A=importdata('5seppop.txt');
 [n,m]=size(A);
 
 D=[0];
@@ -23,7 +23,7 @@ CCom1= zeros(n,1);
 CCom2= zeros(n,1);
 
 x=(m+1)/2;
-for i = 1:n
+for i = 1:2000
    count=0;
    Com1=0;
    for j= 2:x

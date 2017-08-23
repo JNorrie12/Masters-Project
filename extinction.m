@@ -1,4 +1,10 @@
-p=0.2;
+kill=0.2;
+L=8;
+mut=0.005;
+
+p0=1-(1-mut).^L;
+p=kill./(1-2*p0);
+
 xi = log((1-p)/p);
 
 k= linspace(xi, 5, 1000);

@@ -1,8 +1,8 @@
-trial='3';
+trial='13';
 
 ends=importdata(strcat('10ends', trial, '.mat'));
 couplings=importdata(strcat('10couplings',trial, '.mat'));
-bin_width=20;
+bin_width=10;
 %----------------------------
 edges=zeros(10000/bin_width + 1,1);
 edges(1,1)=0;
@@ -32,6 +32,7 @@ for f=1:max(I)
     for e=1:10000/bin_width
         if (A(f) >= edges(e,1)) && (A(f) < edges(e+1,1))
            histo(e,1)=histo(e,1) + sorted_couples(f,1);
+
            if sorted_couples(f,1) > 0
                negpos(e,1)= negpos(e,1) + 1;
            elseif sorted_couples(f,1) < 0
@@ -54,14 +55,11 @@ for i=1:10000/bin_width
     end
 end
 histo=histo./(count2.');
-% negpos(:,1)=negpos(:,1)./(count2.');
-% negpos(:,2)=negpos(:,2)./(count2.');
-
 
 %-----------------------------------
 %Moving average
 mov=zeros(10000/bin_width,3);
-width=25;
+width=51;
 side=(width-1)/2;
 
 mov(1:side, 1)=histo(1:side, 1);
@@ -96,8 +94,8 @@ figure
 plot(bin_middle, mov(:,2)./(mov(:,2)+mov(:,3)), q, 0.5*q./q, 'k--');
 % xlim([0,5000]);
 figure
-loglog(bin_middle,histo+1.5);
+plot(bin_middle,histo+1.5);
 hold on;
 loglog(q,1.5*q./q, 'k--');
-figure
-plot(zeroes, zeroes./zeroes, 'x');
+% figure
+% plot(zeroes, zeroes./zeroes, 'x');

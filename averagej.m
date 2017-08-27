@@ -1,4 +1,4 @@
-trial='13';
+trial='50';
 
 ends=importdata(strcat('10ends', trial, '.mat'));
 couplings=importdata(strcat('10couplings',trial, '.mat'));
@@ -84,6 +84,7 @@ end
 plot(bin_middle, mov(:,2),bin_middle, mov(:,3), bin_middle, mov(:,4));
 hold on;
 plot(q,0*q./q, 'k--');
+xlim([0,2000]);
 xlabel('Generations');
 ylabel('Number of Transitons');
 % plot(bin_middle, negpos(:,1)-0.5, q, 0*q./q, 'k--');

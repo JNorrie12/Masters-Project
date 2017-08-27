@@ -1,6 +1,6 @@
 x=10; %Sensitivity
 z= 0.05; %Threshold
-bin_width=100;
+bin_width=1;
 %----------------------------
 edges=zeros(10000/bin_width + 1,1);
 edges(1,1)=0;

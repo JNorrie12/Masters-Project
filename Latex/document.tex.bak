@@ -1,0 +1,1051 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{mathtools}
+\usepackage{cleveref}
+\usepackage{courier}
+\usepackage{subcaption}
+\usepackage{units}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{babel}
+\usepackage{needspace}
+\usepackage{amssymb}
+
+\usepackage[margin=1in]{geometry}
+\graphicspath{{/home/john/Desktop/Project/Pictures/} }
+%opening
+
+\title{Disjoint Tangled Nature Model}
+\author{John Norrie, CID:01289535}
+
+\begin{document}
+\maketitle
+\vspace{0.1\textheight}
+\textbf{Word count:} 2440 (Excluding abstract, acknowledgements, references and captions )
+\vspace{0.1\textheight}
+\begin{abstract}
+
+\end{abstract}
+\newpage
+\section{Introduction}
+Evolution is the popular scientific theory used to explain the variation and similarities expressed in the features and behaviours of distinct species. In this theory it is thought that the random mutation of genes, coupled with natural selection, causes species to adapt to best suit their surroundings. This process is no more apparent than within Darwin's finches, a group of around fifteen finches studied by the eponymous biologist, which all developed characteristic beaks suited to eating specific foods. As Darwin himself states:\\
+\textit{``Seeing this gradation and diversity of structure in one small, intimately related group of birds, one might really fancy that from an original paucity of birds in this archipelago, one species had been taken and modified for different ends.  In a like manner it might be fancied that a bird originally a buzzard, had been induced here to undertake the office of the carrion-feeding Polybori of the American continent."}_{\textbf{[1]}}\\
+
+\begin{figure}
+		\centering
+		\includegraphics[width=.5\textwidth]{Finches.jpg}
+		\caption{Illustrations from Darwin's Voyage of the Beagle (John Gould) showing the variation of beak in four different finch species on the Galapagos islands.  }
+\end{figure}
+This theory of evolution is, of course, a corner-stone of modern biological understanding - and yet, due to its typically slow and gradual process, the effect of evolution on ecological systems is often difficult to observe or describe. However, understanding under what circumstances species adapt and bifurcate could shed light onto the past of our ancestors and the origin of life. In this project I will be adapting and analysing the Tangled Nature Model (Jensen et al, 2002), a model that takes the basic principles of evolution and applies them to a genespace space in order to explain many of its phenomena. I will be altering this pre-existing model and reapplying it to scenarios involving multiple genespaces, in an attempt to explore the repercussions of evolution on common aspects of ecology, primarily competition and mutuation. 
+\section{Tangled Nature Model}
+In the Tangled Nature Mode each species is represented as a binary sequence of length L denoted by $\textbf{S}^a = (S^a_1, ... S^a_L)$ with $S^a_i \in \{ +1,-1\}$. The physical interpretation of these sequences is that they represent a gene unique to each species. 
+These elements create a `genespace' $\mathcal{S}$, with $2^L$ elements, which can be thought of a an L-dimensional hypercube, with each element $\textbf{S}^a$ representing a corner.\\
+Each of these species has a population $n(\textbf{S}^a, t)$ which evolves in time dependant on three stochastic process: death, birth and mutation.\\
+A timestep is defined as a killing attempt followed by a reproduction attempt. For each of these processes, a member of the population is chosen at random. In the case of the killing attempt, the chosen individual is killed with probability $p_{kill}$ which is constant for all species and individuals. \\
+For a reproduction attempt again a member of the population is chosen at random and gives birth asexually with probability $p_{off}(\textbf{S}^a, t)$ defined as
+\begin{equation}
+p_{off}= \frac{exp(H(\textbf{S}^a,t))}{1 + exp(H(\textbf{S}^a,t))}
+\end{equation}
+Where $H(\textbf{S}^a,t)$ is the weight function. This function is defined as
+\begin{equation}
+H(\textbf{S}^a,t) = \frac{k}{N(t)}\sum_{\textbf{S}^b \in \mathcal{S}} J_{ab}n(\textbf{S}^b,t) - \mu N(t).
+\end{equation}
+Where $J_{ab}$ is the interaction effect that species b has on a.\\  
+If a new member is born, it is not necesssarily of the same species as the parent. Instead the parent is removed from the population and a mutation process is applied to two copies where each gene in the gene sequence of that species changes with probability $p_{mut}$. \\
+For instance, let $L=3$, an individual in species 2 (represented by $\textbf{S}^2 = [-1,1,-1]$) is chosen for a reproduction attempt. The probability that the copies are in $\textbf{S}^2$ is $p_0=(1-p_{mut})^3$.\\
+Using timesteps as a timescale is not particularly useful when analysing this model, as they are too small. Instead generations are used. A generation is defined by the average number of timesteps that an individual is alive for, or mathematically $\frac{N(t)}{p_{kill}}$.
+\subsection{Interaction Matrix}
+As show by equation (2), the probability of reproduction is dependent on a matrix $J$, which represents the effect that the species has on each other. The entries of J can either by positive, representing a helpful effect; negative, representing a harmful effect; or zero, representing not effect at all.\\
+A given interaction couplet, $J_{ab}$ \& $J_{ba}$ has non-zero entries with probability $\theta$. If they are indeed non-zero, they are then chosen from a uniform distribution, $U(-1,1)$.\\
+In order to only focus on the effects species have on each other, $J_{aa}=0$. No species has any interaction value of itself.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{interactions2.png}
+	\caption{Diagram from Jensen et al, 2002{\textbf{[2]}} of a 3 dimensional genome space(L=3). The edges of the cube can be traveresed via mutation, and the number of edges between two vertices represents the Hamming distance between them.  The solid curves represent the interactions between species, and the thickness relates to the strength of the interaction, whereas the size of the each vertex represents the size of the population of that species.}
+\end{figure}  
+\subsection{Long Term Behaviour}
+The application of these mechanisms over many generation gives way to distinct macrodynamics. The model is characterised by the overall population having long periods of relative stability, followed by intermittent bursts of chaos. These 'stable' periods, also known as quasie-evolutionary stable strategies(q-ESS), are reached when the dominant species in the system are in such a configuration that the system exhibits a degree of stability significant enough to overcome the constant mutation forced by the model. After a time the system leaves the q-ESS state and moves into chaos, where the populations shift rapidly until a new q-ESS is found. 
+\begin{figure}[H]
+	 	\makebox[\linewidth][c]{%
+	 		\begin{subfigure}{.6\textwidth}
+	 			\centering
+	 			\includegraphics[width=\textwidth]{BEST.png}
+	 			\caption{}
+	 		\end{subfigure}%
+	 		\begin{subfigure}{.6\textwidth}
+	 			\centering 
+	 			\includegraphics[width=\textwidth]{BEST2.png}
+	 			\caption{}
+	 		\end{subfigure}
+	 	}
+	\caption{Figures (a) and (b) show the population and the species in existence for 5000 generations repectively.The parameters for this trial were L=9, $\theta$=0.75, $p_{mut}$=0.01, $p_{kill}$=0.25, $k$=50, $\mu$=0.05. It is apparent that the q-ESS, characterised by relative stability in (a), correspond to the separate periods in (b) where different species dominated. With ever switch between q-ESS the populations reshuffle such that new and different species emerge and become dominant.}
+\end{figure}  
+As the system evolves over time, the q-ESS become more stable, and the number of a transiton become less frequent, decreasing logarithmically. The ecological interpretation of this is that the species over times are more adapted to thier surroundings, and make better use of resources. This is similarly shown by the increasing overall average population.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Population.jpg}
+	\caption{The increase in population in the Tana model, figure from Jones et al. 2010}
+\end{figure}
+\section{Disjoint Tangled Nature Model}
+Although excellent at showing how mutation causes evolution within closely related species, it does not capture the effect of species who live in the same environment but are too far evovled that they cannot mutate into one another. A good example of this is are parasite-host models, such as dogs and fleas . Both the dog and the flea interact with each other, and if given a long enough time, will definitely affect each other's evolutionary path, however it is not very often one sees a dog mutate into a flea. The disjoint tangled nature model (DisTana) is an attempt at modelling this scenario.\\
+Mathematically, what this translates to is having such a large genespace that there is virtually no probability of them cross mutation. I.e. Species $\textbf{S}^a$ and $\textbf{S}^b$ are part of the genespace $\mathcal{S} = \{-1, +1 \}^L$ for $L \gg1$ and $d(\textbf{S}^a, \textbf{S}^b) \gg 1$. Since the distance between these two species is so high, we can approximate the probability of interspecies mutation, $p_{mut}^{a \leftrightarrow b}=0$.\\
+This idea can be simplified by instead having two distinct genespaces $\mathcal{U}_1 = \{-1, 1\}^{L_1}$ and $\mathcal{U}_2 = \{-1, 1\}^{L_2}$, where species are allowed to evolve and mutate within their respective genespace, but cannot mutate into the other genespace. \\
+Like TaNa each timestep is defined by an individual being randomly chosen and killed with probability $p_{kill}$ followed by another indivdual being randomly choseen to reproduce with probability  $p_{off}$, the same as before(1). \\
+The second big difference comes within the structure of the interactin matrix J. To focus on the interections between the two genespaces, all interacted between species in the same genespace are set to zero. E.i:
+\begin{equation}
+J_{ab}= \begin{cases}
+0  & \text{if }  {\textbf{S}^a}\bigcap {\textbf{S}^b} \subset \mathcal{U}_i, \quad i=\{ 1, 2\}\\
+\sim U(-1,1) \quad with \quad probability\quad \theta   & Otherwise.
+\end{cases}
+\end{equation}
+This interaction matrix is equivelant to the adjecancy matrix of a bipartite graph, creating two sets which only interact with the opposite set.
+The weight function is also changed to suite this difference. We split $N(t)$ the overall population into two separate populations, $N_1(t)$ and $N_2(t)$ which are the populations of the combined species in genespaces $\mathcal{U}_1$ and $\mathcal{U}_2$ respectively. H is therefore defined as
+\begin{equation}
+H(\textbf{S}^a,t) = \begin{cases}
+\frac{k}{N_2(t)}\sum_{\textbf{S}^b \in \mathcal{S}} J_{ab}n(\textbf{S}^b,t) - \mu N_1(t)
+  & \text{if }  \textbf{S}^a \in \mathcal{U}_1 \\
+\frac{k}{N_1(t)}\sum_{\textbf{S}^b \in \mathcal{S}} J_{ab}n(\textbf{S}^b,t) - \mu N_2(t)
+  & \text{if }  \textbf{S}^a \in \mathcal{U}_2
+\end{cases}
+\end{equation}
+This is done because the first term is dependent completely on the populations in the opposite genespace, and so it makes more sense to "normalise" the term by the total population in the opposite gene space. Normalising with the entrie population(As done in the Tana model) does not have a physical interpetation in this model. \\
+Likewise, the second term acts as a "soft boundary", meaning that as a population grows large, $p_{off}$ decreases, avoiding exponential growth. In some cases having both populations affect this term may be preferrential, for instance if the two species use the same limited amount of space or resources, however it is not necessary. Limiting to one of the populations helps focus on the interactions between the two gene spaces.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{interactions.png}
+	\caption{Diagram of the networks invovled in the model. The blue cubes represent the hypercubic structure of the two genespaces $\mathcal{U}_1$ and $\mathcal{U}_2$ ($L_1, L_2 =3$), with every vertex representing a serparate species, the populations of which relate to the size of each vertex(red). The interactions are represented by the red lines between vertices. Note that under the model there is no interaction between species in the same genespace, and that interactions have directions(and hence two nodes can have more than one edge connecting them). These two facts make it possible to portray the interations as a bipartite graph.}  
+\end{figure}
+\subsection{Implementation and Behaviour}
+The model was created in C++(code in the appendices) , and was based on a previous piece of code used to create the origin TaNa model by Lorenzo Palmieri. I focused on $L_1=8$ and $L_2=8$ such that each genespace had contained 256 species. This was large enough to observe transitions between q-ESS states.\\
+Unlike that of the Tana, the nature of the DisTana varied drastically from simulation to simulation. Figure 5 shows two extreme examples of this. Using the same parameters it was possible to find very stable runs(as shown by (a) and (b)), where a q-ESS is found very quickly and is stable enough such that the species stay in this configuration indefinitely, whilst also being possible to find very unstable runs(such as (c) and (d)), where short q-ESS epochs are present and bridged by chaotic interludes. Many times these chaotic periods were so violent and to cause extinction of one or both species.\\
+\begin{figure}
+		 	\makebox[\linewidth][c]{%
+		 		\begin{subfigure}{.6\textwidth}
+		 			\centering
+		 			\includegraphics[width=\textwidth]{2data1.png}
+		 			\caption{}
+		 		\end{subfigure}%
+		 		\begin{subfigure}{.6\textwidth}
+		 			\centering 
+		 			\includegraphics[width=\textwidth]{2data2.png}
+		 			\caption{}
+		 		\end{subfigure}
+		 	}
+	%	 	\baselineskip
+	%	 	\makebox[\linewidth][c]{%
+	%	 		\begin{subfigure}{.6\textwidth}
+	%	 			\centering 
+	%	 			\includegraphics[width=\textwidth]{1data1.png}
+	%	 			\caption{$m=3$}
+	%	 		\end{subfigure}%
+	%	 		\begin{subfigure}{.6\textwidth}
+	%	 			\centering 
+	%	 			\includegraphics[width=\textwidth]{1data2.png}
+	%	 			\caption{$m=4$}
+	%	 		\end{subfigure}
+	%	 	}
+		 			\baselineskip
+		 		\makebox[\linewidth][c]{%
+			 	 	\begin{subfigure}{.6\textwidth}
+		 				\centering 
+		 				\includegraphics[width=\textwidth]{3data1.png}
+		 				\caption{}
+			 	 	\end{subfigure}%
+		 			\begin{subfigure}{.6\textwidth}
+			 	 		\centering 
+		 				\includegraphics[width=\textwidth]{3data2.png}
+		 				\caption{}
+		 			\end{subfigure}
+		 			}
+		 	\caption{figures (a), (b) and (c), (d) are two simulations of the DisTana using the same parameters. They represent the two extremes of the possible outcomes in using this model. The parameters were $L_{1,2}=8$, $\theta = 0.25$, $p_{mut}= 0.005$, $p_{kill}= 0.2$, $k= 5$, $\mu = 0.007$. The points represent the species alive at a given generation, blue being the species in genespace 1 and red in genespace 2. The green lines represent the 'centre of mass' of each genespace for a given generation. This is concept which will be developed further in chapter 7.}
+\end{figure}
+Since all other parameters are the same, the main difference between the models is the interaction matrix $J$. The DisTana model could be more sensitive to the randomised entries in the matrix than the Tana model, giving way to different behaviours.\\
+By changing the J matrix, this idea is enforced. When choosing the non-zero elements of $J$ in the range [0,1], the chaotic periods no longer end in extinction, as they often did when choosing the elements between [-1,1]. The system as a whole more closely resembles the old Tana model. \\
+Due to these finds much of the analysis will be based on the structure of the matrix $J$, 
+
+\section{Equilibrium without interactions}
+The simplest case to look at is the case where there are no interactions between species. In terms of the model, $J_{ab}=0$ for all $a,b$. Without th J matrix we can simplify the model into two separate equations, one for each genespace.
+\begin{equation}
+	\delta N_i(t) = (p_{off} - p_{kill})N_i(t)
+\end{equation}
+where $p_{off}$ is described as 
+\begin{equation}
+	p_{off}= \frac{exp(-\mu_{i} N_i(t))}{1 + exp(-\mu N_i(t))}
+\end{equation}
+The stable point in this case if given when $\delta N_i(t)=0$, and there we find the equilibrium points
+\begin{align}
+& 0 = (p_{off} - p_{kill})N_i(t)
+& \Longrightarrow \frac{exp(-\mu N_i(t))}{1 + exp(-\mu N_i(t))}= p_{kill}
+& exp(-\mu N_i(t)) = \frac{p_{kill}}{1-p_{kill}}
+\end{align}
+And so the equillibrium for each genespace is acheived by
+\begin{equation}
+	N_i = \frac{1}{\mu_i} ln(\frac{1-p_{kill}}{p_{kill}})
+\end{equation} 
+Not much can be said for the exact populations of the individual species. The populations are modelled by
+\begin{equation}
+	\delta N_i(t) = (p_{off} - p_{kill})N_i(t) \quad \textbf{S}^a \in \mathcal{U}_i
+\end{equation} 
+Since these equations are only dependent on overall populations, which as discussed are in equilibrium, the only fluctuations come from the stochastic process of mutation, which acts as a diffusive process in this regard. 
+
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.6\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{Stable1.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.6\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{Stable2.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{Parameter for this simulation were $L_{1,2}=8$, $\theta = 0.25$, $p_{mut}= 0.005$, $p_{kill}= 0.2$, $k= 5$, $\mu_1 = 0.007$, $\mu_2=007$. Using the above formula the theoretical stable point for each genespace population is 198, which is in accordance with the data(a). (b) shows the stochastic and diffusive nature of the individual species, and they coming in and out of existence sporadically.}
+\end{figure}  
+\section{Centre of Mass and Thresholds}
+When adding in interactions analysis becomes difficult, as we can no longer ignore the individual species. With 512 separate variables, each dependent on one another, even simple linear stability analysis becomes difficult and simplification becomes necessary. \\
+A technique proposed in Piovonia  et al. 2016 is that of thresholding. This uses the assumption that the majority of the population is dominated by a few species(clusters), rather then being spread out equally across the existing species. The other species (clouds) have very little effect on the dynamics of the q-ESS regions. Using this assumption, we can disregard many of the species who do not possess a certain threshold percentage of the overall population. \\
+In order to verify this assumption, a centre of mass(CoM) function was used, which shows in which species the majority of the population lies. Let $i$ be the species label(the base 10 conversion of it's binary expansion), then the CoM is defined as
+\begin{equation}
+C_m = \sum_{i = 0}^{2^{L_1}+2^{L_2}} i \frac{n_i(t)}{N_i(t)}
+\end{equation}
+Applying this function revealed that in the majority of cases, the population in both genespaces was almost entirely part of a single species. Figure5(b) shows that this is not always the case, however even then it is apparent there are only 3 dominant species in the system. In fact by creating a threshold of just 5\% can reduce the system dimensions form 256 to 2. 
+\begin{figure}
+		 	\makebox[\linewidth][c]{%
+		 		\begin{subfigure}{.6\textwidth}
+		 			\centering
+		 			\includegraphics[width=\textwidth]{1data2.png}
+		 			\caption{}
+		 		\end{subfigure}%
+		 		\begin{subfigure}{.6\textwidth}
+		 			\centering 
+		 			\includegraphics[width=\textwidth]{1data3.png}
+		 			\caption{}
+		 		\end{subfigure}
+		 	}
+		 	\caption{(a) shows a typical simulation, the centre of mass for each gene type(green)is at the position of the only coninuous species. This implies that the majority of population is here. (b) shows the populated species present when adding a threshold of 5\%. At a given generation outside in a q-ESS the system is reduced to a system of 2 population. In the shifts the population distributes over more species before rearranging into the next q-ESS.}
+	
+\end{figure}
+\section{Two Dimensional System}
+The following few chapters will focus on the stability in the q-ESS states. As before shown, in general, the system can be collapse to 2 dimensional. 
+\subsection{Equilibrium}
+In this case there are only two species available, for example $\textbf{S}^1 \in \mathcal{U}_1$ and $\textbf{S}^2 \in \mathcal{U}_2$. The weight function is simplified to
+\begin{align}
+H(\textbf{S}^a,t) &= \frac{k}{N(t)}\sum_{\textbf{S}^b \in \mathcal{S}} J_{ab}n(\textbf{S}^b,t) - \mu N(t)\\[.7em]
+H(\textbf{S}^a,t) &= \frac{k}{n(\textbf{S}^b,t)}J_{ab}n(\textbf{S}^b,t) - \mu n(\textbf{S}^a,t)\\[.7em]
+\Rightarrow H(\textbf{S}^a,t) &= kJ_{ab} - \mu n(\textbf{S}^a,t)
+\end{align}
+The weight function no longer has dependence of the opposite population.\\
+Since we are assuming that the genesapces only contain one populated species each, we can neglect the effect of population mutating into the one species. However, more accurately model the system we will not neglect the effect of mutation into other species. Therefore the populations can be modelled by: 
+\begin{equation}
+\delta n_a(t)= ((1-2p_{out})p_{off}-p_{kill})n_a(t) \quad\quad a={1,2}
+\end{equation}
+Where $p_{out}=1-(1-p_{mut})^L$ is the probability of the offspring mutating out of the species. 
+And therefore the non-trivial equilibrium point is described by 
+\begin{equation}
+	p_{off}= \frac{p_{kill}}{1-2p_{out}}= P
+\end{equation}
+ Continuing the calculation in terms of $P$. 
+\begin{align}
+	P &= \frac{exp(H_a(t))}{1 + exp(H_a(t))}\\[.7em]
+	\Rightarrow H_a(t) &= ln\left(\frac{1-P}{P}\right)
+\end{align}
+Therefore for each species, population is achived at
+\begin{equation}
+	 n^*_a(t) = \frac{1}{\mu}\left(ln\left(\frac{1-P}{P}\right) + k J_{ab}\right) 
+\end{equation}
+This helps to explain the sensitivity to the interaction matrix and why extinction is so common. For a given population, in order for no exctinction to occur, we require the equilibrium to be $n^*_a(t) \ge 0$. Therefore using equation (17),
+\begin{equation}
+	\frac{1}{\mu}\left(ln\left(\frac{1-P}{P}\right) + k J_{ab}\right) \ge 0\\ 
+\end{equation}
+Since $J_{ab} \in [-1,1]$, for any given species,
+\begin{equation}
+		\frac{1}{\mu}\left(ln\left(\frac{1-P}{P}\right) + k J_{ab}\right) \ge \frac{1}{\mu}\left(ln\left(\frac{1-P}{P}\right) - k\right) \ge 0
+\end{equation}
+And therefore a suitable k for no extinction to happen is
+\begin{equation}
+k \le ln\left(\frac{1-P}{P}\right) = \xi . 
+\end{equation}
+The simulations so far have used $p_{kill}=0.2$, and $p_{mut}=0.005$ which implies that for extinction to be prevented $k \le 1.283$. However, in prior simulations $k = 5$, which explains the frequency of extinctions. In fact, extinction is certain for any dominant couplet of with an interaction entry, $J_{ba}$ or $J_{ab}>-0.277$, which accounts for approximately 37\% of non-negative interactions. This is very different from the behaviour of the original Tana model, where k values of 40 were possible. Physically, the may explain why extinction is such a common feature of ecology. In order to avoid extinction all further simulations will use $k=1.3$ which should insure survival.
+\begin{figure}[H]
+		 	\makebox[\linewidth][c]{%
+		 		\begin{subfigure}{.6\textwidth}
+		 			\centering
+		 			\includegraphics[width=\textwidth]{4data1.png}
+		 			\caption{}
+		 		\end{subfigure}%
+		 		\begin{subfigure}{.6\textwidth}
+		 			\centering 
+		 			\includegraphics[width=\textwidth]{4data2.png}
+		 			\caption{}
+		 		\end{subfigure}
+		 	}
+		 	\caption{(a) and (b) represent a typical simulation with parameters $L_{1,2}=8$, $\theta = 0.25$, $p_{mut}= 0.005$, $p_{kill}= 0.2$, $k= 5$, $\mu = 0.007$. The two dominant species in the q-ESS which lies approximately between geneartion 0 and 1900 are 115(blue) and 302(red). The corresponding interaction entries are $J_{302, 115}= 0.57722$ and $J_{115, 302}= 0.9902$. Using equation (14), the theoretical equilibrium populations are given by 595 and 890 respectively, which is in accordance with graphical data. }
+\end{figure}
+\subsection{Extreme k and Extinctions}
+Although we can avoid having strategies with negative equilibra (safe strategies) by having
+\begin{equation}
+k < ln\left(\frac{1-P}{P}\right) = \xi
+\end{equation}
+It is not correct to conversely say that one would expect extinctions for $k>\xi$. In fact as will be shown in the 3-d dimensional case, systems with higher interaction couplings are favoured, and therefore in the majority of cases unsafe strategies would not be chosen. To better understand extinction one must instead look at the proportion of unsafe stategies for a given k and $\xi$.
+\\
+The probability that a given non-zero entry of J, would produce and extinction is given by
+\begin{equation}
+P(\xi + kx < 0) \text{\quad with \quad} x \sim U(-1,1)  
+\end{equation}
+Which is equivelant to 
+\begin{align}
+&=P\left(x < -\frac{\xi}{k}\right) \text{\quad with \quad} k \in [\xi, \infty) \\
+&=\int_{-\infty}^{-\frac{\xi}{k}}f(x) \, dx \quad = \quad \int_{-1}^{-\frac{\xi}{k}} \frac{1}{2} \, dx \\
+&=\frac{1}{2}\left(1- \frac{\xi}{k}\right) \quad k \in [\xi, \infty)
+\end{align}
+Therefore we see the proportion of unsafe J interactions is inversely proportional to k. \\
+This effect is then amplified when considering the 2D strategies which constitute for the majoirty of the q-ESS's. We define a strategy $s(x_1, x_2)$ as 'safe' if both members of the interaction couplet are greater than that necessary for extinction to occur. The probability of  a given non-zero strategy being safe is therefore
+\begin{align}
+P\left(s(x_1,x_2) \quad safe \right) &= P\left(x_1 > -\frac{\xi}{k}\right)P\left(x_2 > -\frac{\xi}{k}\right) \quad \text{iid}\\[.7em]
+&=\left[1 - P\left(x_1 < -\frac{\xi}{k}\right)\right]\left[1 - P\left(x_2 < -\frac{\xi}{k}\right)\right] \\[.7em]
+&=\left[1 - \frac{1}{2}\left(1-\frac{\xi}{k}\right)\right]\left[1 - \frac{1}{2}\left(1-\frac{\xi}{k}\right)\right]\\[.7em]
+&= \frac{1}{4}\left(1+\frac{\xi}{k}\right)^2 \quad k \in [\xi, \infty)
+\end{align}
+Since this is a smooth function, we would also expect the number of extinctions for a given $k$ to act smoothly, rather then $k=\xi$ being a hard cut-off. Tis is indeed what we see experimentally. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\textwidth]{extinction.png}
+	\caption{Blue shows the proportion of unsafe J, descirbed by (64). Red shows the proportion of unsafe stategies, $1- P(s(x_1, x_2) \quad safe)$. The black points represent the proportion of trials which lead to extinction. The proportion of extinction for $k=2,3,4,5$ are $0.29\%$, $9.93\%$, $26.6\%$, $50.9\%$.  }
+\end{figure}
+Although the probability of extinction obviously follows have a very different dependence on k, it does help explain how extinction is not necessarily certain for $k>1.28$. Infact during trials of $k=1.6$, exctintion was never observed, and $k=2$ it was only observed once in 400 trials. This does allow us to experiement with higher k.\\
+\subsection{Liner Stabilty Analysis}
+In order to analyse the stability in these positions, we will draw on the techniques of linear stability analysis (LSA). The equation (14) describes the dynamics for each population of the system. Therefore the linearised matrix is given by
+ \[
+ M=
+ \left( {\begin{array}{cc}
+ 	(1-2p_{out})\frac{\partial p_{off}^1}{\partial n_1}n_1 + (1-2p_{out})p^1_{off} - p_{kill} & (1-2p_{out})\frac{\partial p_{off}^1}{\partial n_2}n_1 \\[.7em]
+ 	(1-2p_{out})\frac{\partial p_{off}^2}{\partial n_1}n_2 & (1-2p_{out})\frac{\partial p_{off}^2}{\partial n_1}n_2 + (1-2p_{out})p_{off} - p_{kill} \\
+ 	\end{array} } \right)  \Bigg\rvert_{n= n*} 
+ \]
+The non-trivial equilibrium is achieved when $p_{off} - P =0$. Therefore
+
+\[
+M=
+(1-2p_{out})\left( {\begin{array}{cc}
+	\frac{\partial p_{off}^1}{\partial n_1}n^*_1 & \frac{\partial p_{off}^1}{\partial n_2}n^*_1 \\
+	\frac{\partial p_{off}^2}{\partial n_1}n^*_2 & \frac{\partial p_{off}^2}{\partial n_1}n^*_2\\[.7em]
+	\end{array} } \right)
+\]
+Using the chain rule
+\begin{equation}
+	\frac{\partial p^i_{off}}{\partial n_j} = \frac{exp(H_i)}{(1+ exp(H_i))^2}\frac{\partial H_i}{\partial n_j} = \alpha_i \frac{\partial H_i}{\partial n_j}
+\end{equation}
+In the two dimensional case the weight function for each population is independent of the opposing population, therefore 
+\begin{equation}
+	\frac{\partial p^i_{off}}{\partial n_j}=0 \text{ for } i \ne j
+\end{equation}
+The none zero derivatives of the weight function are given by
+\begin{equation}
+	\frac{\partial H_i}{\partial n_i} = -\mu
+\end{equation}
+And so the final linearised matrix is given by
+	\[
+	M= (1-2p_{out})
+	\left( {\begin{array}{cc}
+		-\mu \alpha_1 n^*_1  & 0 \\
+		0 & -\mu \alpha_2 n^*_2\\
+		\end{array} } \right)
+	\]
+Since this matrix is in the diagonal form the corresponding eigen values and eigen vectors are given by 
+\begin{equation}
+	\begin{array}{c}
+	\lambda_1 = -(1-2p_{out})\mu \alpha_1 n^*_1 \quad \text{   with   } \quad \boldsymbol{v}_1 = \	\left( {\begin{array}{c}
+		1 \\
+		0 \\
+		\end{array} } \right) \\
+		\lambda_2 = -(1-2p_{out})\mu \alpha_2 n^*_2 \quad \text{   with   } \quad \boldsymbol{v}_2 = \	\left( {\begin{array}{c}
+			0 \\
+			1 \\
+			\end{array} } \right)
+	\end{array}	
+\end{equation}
+Since $\alpha$ is a strictly positive function and assuming that$ p_{out}<0.5$ and $n^*_1 > 0$ this system is assymptotically stable for any two species. 
+\section{3 Dimensional System}
+Although far less common than the 2-dimensional q-ESSs, 3-dimensional q-ESSs do exist and should be analysed.
+Unlike the 2 dimensional mutation into the populated species is present in the dyanimcs. Assume species 1 and 2 are in the same genespace, and 3 is in the opposing genespace. Then the system is describe be equations
+
+\begin{align}
+	\delta n_i(t) &= ((1-2p_{out})p^i_{off}-p_{kill})n_i + 2p_{in}p^j_{off}n_j \\[.7em]
+	\delta n_3(t) &= ((1-2p_{out})p_{off}-p_{kill})n_3 \\[.7em]
+	\quad \text{for} \quad &i,j=1,2 \quad i \ne j
+\end{align}
+Where $p_0$ is the distance dependent mutation probability. Let $d$ be the Hamming distance between species 1 and 2. Then $p_{in} = p^d_{mut}(1-p_{mut})^{L-d}$. This is the probability for species 1 to mutate into species 2 and vice versa.\\
+\subsection{Equilibria}
+We have that the fixed point is acheived when 
+\begin{align}
+\delta n_1(t) &= 0 \quad (a)\\
+\delta n_2(t) &= 0 \quad (b)\\
+\delta n_3(t) &= 0 \quad (c)
+\end{align} 
+However with the complication of inward mutation, no analytic expression for the solutions for the equilbra of (39-41). We do however know that solutions do exist.\\
+For example of a solution is $n_2 \approx 0$. then the equations simplify to 
+\begin{align}
+	(1-2p_{out})p^1_{off} - p_{kill} &= 0\\
+	(1-2p_{out})p^3_{off} - p_{kill} &= 0 \\
+\end{align}
+Which gives analytic solutions
+\begin{align}
+	n_1 &= \frac{1- P}{P} + kJ_{1,3}\\
+	n_3 &= \frac{1- P}{P} + kJ_{3,1}\\
+\end{align} 
+Here we recover the 2-dimensional system. In order to approximate more interesting solutions, the probability $p_{in}$ will be approximated as zero. This is viable aproximation to make since $p_{in}$ is very small relative to the other probabilities.
+Taking $p_{mut} = 0.005$(Which has been used in simulations) taking $d=1$, the closest the two species can be, we have $p_{in}=0.00483$. Allowing this assumption will enable us to find analytic approximations of the equilbria. \\
+\subsection{Negligible Mutation}
+Using the assumption proposed in the last section, the inward mutatuion between the populated species will be set to zero. Therefore the simplified system follows the dynamics
+\begin{equation}
+\delta n_i = ((1-2p_{out})p_{off}- p_{kill}) n _i \quad for \quad i=1,2,3
+\end{equation}
+This set of equations has 3 notable cases of behaviour.
+\subsubsection{Case (a)- $\boldsymbol{n_1}$ and $\boldsymbol{n_2 >0}$}
+Case (a) is an example of a fixed point where neither $n_1, n_2$ are extinct, and have significant populations. In which case the equilibrium populations are given by
+\begin{align}
+n_1 + n_2  &= \frac{1}{\mu}(ln(\frac{1- P}{	P}) + kJ_{1,3})\\
+n_1 + n_2  &= \frac{1}{\mu}(ln(\frac{1- P}{P}) + kJ_{2,3})\\
+n_3 &= \frac{1}{\mu}(ln(\frac{1 - P	}{P}) - k\frac{J_{3,1}n_1 + J_{3,2}n_2}{n_1 + n_2})\\
+\end{align}
+The first thing to notice is that the first two equations have a solution if and only if $J_{1,3}=J_{2,3}$. This could account for the rarity of finding a 3 species system, and indeed makies it a special cases. \\
+There is actually not a single equilibrium point for this case, but a line that satisfies the equations above. Let $(n^*_1, n^*_2,n^*_3)$ be any fixed point on the line expressed by (30), with $n^*_i>0$.
+Linearising about this point, we retrieve a general stability matrix 
+	 \[
+	 M=(1-2p_{out})
+	 \left( {\begin{array}{ccc}
+	 	-\mu \alpha_1 n_1 + p^1_{off} - P & -\mu \alpha_1 n_1 & 0\\[.7em]
+	 	-\mu \alpha_2 n_2 & -\mu \alpha_2 n_2 + p^2_{off} - P & 0\\[.7em]
+	 	\frac{kn_2n_3 \alpha_3 }{(n_1 + n_2)^2}(J_{3,1}-J_{3,2}) & \frac{kn_1n_3\alpha_3}{(n_1 + n_2)^2}(J_{3,2}-J_{3,1}) & -\mu \alpha_3 n_3 + p^3_{off} - P\\
+	 	\end{array} } \right)  \Bigg\rvert_{n= n*} 
+	 \]
+In case (a) 
+\[
+M= (1-2p_{out})
+\left( {\begin{array}{ccc}
+	-\mu \alpha_1 n^*_1 & -\mu \alpha_1 n^*_1 & 0\\[.7em]
+	-\mu \alpha_2 n^*_2 & -\mu \alpha_2 n^*_2 & 0\\[.7em]
+	\frac{kn^*_2}{(n^*_1 + n^*_2)^2}(J_{3,1}-J_{3,2}) & \frac{kn^*_1}{(n^*_1 + n^*_2)^2}(J_{3,2}-J_{3,1}) & -\mu \alpha_3 n^*_3\\
+	\end{array} } \right)
+\]
+%Starting with equation (c), we can gain a relationship between the populations of species 1, 2 and 3.\\
+%\begin{equation}
+%	\begin{align}
+%	p^3_{off} &= p_{kill} \\
+%	\Rightarrow n_1 + n_2 &= \frac{1}{\mu}ln(\frac{1- p_{kill}}{p_{kill}}) 
+%	\end{align}
+%\end{equation} 
+The eigenvalues and corresponding eigenvectors for this are
+\begin{equation}
+	\begin{array}{c}
+	\lambda_1 = -\mu (1-2p_{out})(\alpha_1 n^*_1+ \alpha_2 n^*_2) \quad \text{   with   } \quad \boldsymbol{v}_1 = \	\left( {\begin{array}{c}
+		\alpha_1 n^*_1 \\
+		\alpha_2 n^*_2 \\
+		0 \\
+		\end{array} } \right) \\[2.5em]
+	\lambda_2 = 0 \quad \text{   with   } \quad \boldsymbol{v}_2 = \	\left( {\begin{array}{c}
+		1 \\[.4em]
+		-1 \\[.4em]
+		\frac{k(J_{3,1}-J_{3,2})}{\mu \alpha_3(n^*_1+n^*_2)n^*_3}
+		\end{array} } \right)\\[2.5em]
+	
+		\lambda_3 = -\mu (1-2p_{out})\alpha_3 n^*_3 \quad \text{   with   } \quad \boldsymbol{v}_3 = \	\left( {\begin{array}{c}
+			0 \\
+			0 \\
+			1 \\
+			\end{array} } \right)
+	\end{array}		
+\end{equation}
+The the linearised trajectories near a given equilibrium point are
+\begin{equation}
+	\boldsymbol{X(t)} = Ae^{\lambda_1t}\boldsymbol{v}_1 + B\boldsymbol{v}_2 + Ce^{\lambda_3t}\boldsymbol{v}_3 + \boldsymbol{n}^* 
+\end{equation}
+Since $\lambda_1, \lambda_3 < 0$, as $t \rightarrow \infty$ all trajectories tend to the line 
+\begin{equation}
+	\boldsymbol{w} = B \boldsymbol{v}_2 \quad + \quad \boldsymbol{n}^*
+\end{equation}
+Which is equilevant to the line expressed by equations (30). This line is known as a centre manifold.\\
+\textbf{Theorem ??}(Central Manifold Theorem). \textit{Given $\dot{x}=f(x), x \in \mathbb{R}^n$, f smooth and suppose x=0 is a stationary point. Suppose the Jacobian matrix Df(0) has eigenvalues in sets $\sigma_u$ with $Re(\lambda)>0$, $\sigma_s$ with $Re(\lambda) <0$ and $\sigma_c$ with $Re(\lambda)=0$ and corresponding  generalized linear eigenspaces $E^u$,$E^s$ and $E^c$ repectively. Then there exist unstable and stable manifolds $\boldsymbol{W}^u$, $\boldsymbol{W}^s$ tangential to $E^s$ and $E^u$ at x=0; and an invariant centre manifold $\boldsymbol{W}^c$ tangential to $E^c$ at x=0}\\
+The import part here is that it is invariant. See shilnikov et al. for a proof.\\
+Therefore any trajectory that passes onto the manifold at time $t_0$, stays on the manifold for all $t>t_0$.Since $\lambda_1$ and $\lambda_3$ are both negative, then the manifold acts as an attractor. It is possible to derive the behaviour on the manifold, however it is beyond the scope of this project. Further more, when looking at $O(n^2)$ terms the stochasticity of the model becomes more prevelant and it is no longer appropriate to ignore mutation, or approximate the system as a continuum, rather than a stochatic process. \\
+The manifold is therefore not an equilirbuim point, since the populations still fluctuated, however they do stay on the manifold. 
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{Diagram1.png}
+		\caption{Projection of the central manifold onto the $n_1$, $n_2$ plane. The dark blue line represents the centre manifold, intersecting the $n_i$ axis at $\xi_1 = ln(\frac{1-P}{P)-kJ_{1,3}}$. Near the manifold(dark blue) the trajectories move along the vectors ($\alpha_1 n^*_1,\alpha_2 n^*_2,0 $). On the manifold, the motion is governed by $O(n^2)$ terms and stochastic 'noise'.}
+\end{figure}
+\begin{figure}
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.6\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{15data1.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.6\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{15data2.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{(a) and (b) shows a trail of $L_1=2, L_2=1$. As (b) shows the CoM of genespace 1 fluctuates between the species 0 and 1. As predicted $n_0 + n_1$ reaches a fied point, however $n_0$ ad $n_1$ fluctuate randomly. $n_2$ also fluctuates dependent on the motion of $n_0$ and $n_1$, this is because there is $J_{3,0}\ne J_{3,1}$}
+\end{figure}
+\subsubsection{Cases (b) \& (c), $\boldsymbol{n_1 = 0}$ or $\boldsymbol{n_2 = 0}$}
+In the case that $J_{1,3} \ne J_{3,2}$, the only possible fixed points exist when either $n_1=0$ or $n_2=0$ (Ignoring the trivial case where $n_3=0$).  \\
+Fixed point 1 given by
+\begin{align}
+n_1 &= 0\\[.7em]
+n_2 &= \frac{1}{\mu}(ln(\frac{1-P}{P}) - kJ_{2,3})\\[.7em]
+n_3 &= \frac{1- P}{P} + kJ_{3,1}
+\end{align} 
+And fixed point 2 given by
+\begin{align}
+n_1 &= \frac{1}{\mu}(ln(\frac{1-P}{P}) - kJ_{1,3})\\[.7em]
+n_2 &= 0\\[.7em]
+n_3 &= \frac{1- P}{P} + kJ_{3,2}
+\end{align} 
+At fixed point 1, the stability matrix looks like
+\[
+	 M= (1-2p_{out})
+	 \left( {\begin{array}{ccc}
+	 	p^1_{off} - P & 0 & 0\\[.5em]
+	 	-\mu \alpha_2 n^*_2 & -\mu \alpha_2 n^*_2 & 0\\[.5em]
+	 	k \alpha_3 (J_{3,1}-J_{3,2}) & 0 & -\mu \alpha_3 n^*_3\\
+	 	\end{array} } \right)
+\]
+Which have eigenvectors and eignenvalues
+\begin{equation}
+		\begin{array}{c}
+		\lambda_1 = (1-2p_{out})(p^1_{off}-p^2_{off}) \quad \text{   with   } \quad \boldsymbol{v}_1 = \	\left( {\begin{array}{c}
+			1 \\
+			-1 \\
+			\frac{k(J_{3,1}-J_{3,2})}{\mu n_3} \\
+			\end{array}}  \right) \\[2em]
+		\lambda_2 = -\mu (1-2p_{out})\alpha_2 n^*_2 \quad \text{   with   } \quad \boldsymbol{v}_2 = \	\left( {\begin{array}{c}
+			0 \\
+			1 \\
+			0 \\
+		\end{array} } \right)\\[2em]
+			\lambda_3 = -\mu (1-2p_{out})\alpha_3 n^*_3 \quad \text{   with   } \quad \boldsymbol{v}_2 = \	\left( {\begin{array}{c}
+				0 \\
+				0 \\
+				1 \\
+				\end{array} } \right)\\
+		\end{array}	
+\end{equation}
+Whilst as fixed point 2, the stability matrix looks like 
+		 \[
+		 M=(1-2p_{out})
+		 \left( {\begin{array}{ccc}
+		 	-\mu \alpha_1 n_1 & -\mu \alpha_1 n_1 & 0\\[.5em]
+		 	0 & P-p^2_{off} & 0\\[.5em]
+		 0 & \frac{kn_1}{n_2}(J_{3,2}-J_{3,1}) & -\mu \alpha_3 n_3\\
+		 	\end{array} } \right)
+		 \]
+With corresponding eigenvectors and values,
+\begin{equation}
+\begin{array}{c}
+\lambda_1 = (1-2p_{out})(p^2_{off}-p^1_{off}) \quad \text{   with   } \quad \boldsymbol{v}_1 = \	\left( {\begin{array}{c}
+	-1 \\
+	1 \\
+	\frac{k(J_{3,1}-J_{3,2})}{\mu n_3} \\
+		\end{array} } \right) \\[2em]
+	\lambda_2 = -\mu (1-2p_{out})\alpha_1 n^*_1 \quad \text{   with   } \quad \boldsymbol{v}_2 = \	\left( {\begin{array}{c}
+		0 \\
+		1 \\
+		0 \\
+		\end{array} } \right)\\[2em]
+	\lambda_3 = -\mu (1-2p_{out}) \alpha_3 n^*_3 \quad \text{   with   } \quad \boldsymbol{v}_2 = \	\left( {\begin{array}{c}
+		0 \\
+		0 \\
+		1 \\
+		\end{array} } \right)
+	\end{array}	
+	\end{equation}
+At both fixed points $\lambda_1$ and $\lambda_3$ are negative, impliying stability in the planes described by $\boldsymbol{v_{2,3}} + \boldsymbol{n^*}$. However the other eigne vector is the opposite of each other, e.i. $\lambda^{fp1}_1=-\lambda^{fp2}_1$. Therefore if one of the equilibria is stable, then the other is a saddle node. The stability is dependent on $p^1_{off}-p^2_{off}$, and since these two functions are strictly increasing dependent $J_{1,3}$ and $J_{2,3}$ respectively, we find that stability if based on interaction strength. In both cases we find that the system attracts to the population with the largest interaction value.\\
+\textbf{Case (b), $n_1=0$.} This is equivelant to fixed point one being a saddle node, therefore $J_{1,3}<J_{2,3}$.\\
+\textbf{Case (c), $n_2=0$.} This occurs when $J_{1,3}>J_{2,3}$. 
+
+\begin{figure}[H]
+			 	\makebox[\linewidth][c]{%
+			 		\begin{subfigure}{.6\textwidth}
+			 			\centering
+			 			\includegraphics[width=\textwidth]{Caseb.png}
+			 			\caption{}
+			 		\end{subfigure}%
+			 		\begin{subfigure}{.6\textwidth}
+			 			\centering 
+			 			\includegraphics[width=\textwidth]{Casec.png}
+			 			\caption{}
+			 		\end{subfigure}
+			 	}
+			 	\caption{A projection of the system onto the $n_1$-$n_2$ plane. (a) shows the behaviour of the system in cases (b) and (c) respectively.}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\textwidth]{Bif.png}
+	\caption{A bifurcation diagram showing the change in stability with changing $\epsilon$. Full lines show stable equilibria and dahsed lines show unstable equilibria. This bifurcation is know as a transcritical bifurcation. For $\epsilon < 0 $, $\xi_1$ is stable and $\xi_2$ is unstable, case (b). At $\epsilon =0$ the central manifold becomes aparent and case (a) appears. At $\epsilon > 0$, the the equilibria have switched criticality.   }
+\end{figure}
+	\begin{figure}[H]
+		\makebox[\linewidth][c]{%
+			\begin{subfigure}{.4\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{16data2.png}
+				\caption{}
+			\end{subfigure}%
+			\begin{subfigure}{.4\textwidth}
+				\centering 
+				\includegraphics[width=\textwidth]{19data2.png}
+				\caption{}
+			\end{subfigure}
+			\begin{subfigure}{.4\textwidth}
+					\centering 
+					\includegraphics[width=\textwidth]{18data2.png}
+					\caption{}
+			\end{subfigure}
+				}
+		\caption{}
+	\end{figure}
+The realistion of this theory is shown in the Figure 15. Three simulations made with of system of 4 species, 0,1,2,3 ($L_1 = L_2 = 2$), each with a J matrix	
+			 \[
+			 M=
+			 \left( {\begin{array}{cccc}
+			 	0 & 0 & 0.5 & 0\\
+			 	0 & 0 & 0.5 + \epsilon & 0 \\
+			 	0.7 & 0.4 & 0 & 0 \\
+			 	0 & 0 & 0 & 0
+			 	\end{array} } \right) \]
+Where $\epsilon = 0$, $0.05$, $0.1$ respectively. In order to limit the system to three variables, all interaction between species 3 have been set to zero, making it unappealing. The is shown as the centre of mass function lies on top of species 2, meaning the vast majority of the population of genespace 2 lies there. For $\epsilon =0$,  a realisation of case (a) is apparent. The changes in population between species 0 and 1 do not seem to tend toward any equilibruim, and instead acts like a random walk between  the two populations.\\
+For $\epsilon =0.05$, since $J_{1,2} < J_{0,2}$, there is obviously preference towards species 1, and ase (b) is recovered. However, the main difference between the realisation and the theory in this case is due to the stocastic nature of the process, and the mutation mechanic which was neglected. Although species 1 appears to be dominant, species 0 does not have 0 population for the majority of the trial. For close interation values, scochasticity and mutation still play a large role in the dymamics and large populations can still exist in the unstable population.\\
+For $\epsilon =0.1$, similar to $\epsilon =0.05$, however the the difference in interaction 
+is larger and the stochastic nature is less prevelant, showing that for interactions with a larger difference, the theorectical cases (b) and (c) can be obtained.\\
+\subsection{Comparison With Data}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Triple.png}
+	\caption{}
+\end{figure}
+The extrapolation from this to the higher dinemsional systems is exactly the same. A good example fo this is figure 53. This is the same trial as in figure 8 (a), however focusing on generations 2400-2600. There are two main 3 dimensional q-ESS's highlighted by dotted lines, the first (generations 2119-2125) dominated by species 194, 302 and 495; and the second (generations 2146-2208)dominated by species 67, 345 and 377. Concentrating on the second case,  $J_{345,67}=0.9030$ and $J_{377,67}=0.9099$, which are sufficiently similar for case (a) to play out.  \\
+In comparison to the 2 dimension q-ESS, these states are short, this one only lasting 75 generations where q-ESS states can last for thousands of generations. This implies that there is some inherant instability or favouritism in the model towards 2 species systems. \\
+An interesting aspect of these systems is when thinking about transitions. Due to the freedom of mutation in these systems, large shifts in population of easier, and transiton are more likely. This is particularly true in figure 16, where we see a transition from the dominant species being species in genespace 2 from 377 to 345. This mechansim of transiton invovling a species with similar interactions of 2 in the opposite genespace will be developed further.\\
+This mechanism is unique to the model, and has not been observed in the Tangled Nature Model. Therefore the number of transitions and  distribution could differ.
+\section{Transitions}
+Although the last section alluded to a possible mechanism of transition, as figure 14 shows, this can happen many times within one transitional period. Therefore studying the dynamics of transitions may not be useful, and it could be particularly difficult to draw conclusions from in these chaotic regions. Like in many complex systems, from complexity comes simple behaviour, and so it could be more useful to discuss the macroscopic effects these transitions have on the system. \\
+As  shown by the 3-system case, there is an affinity towards strategies with higher interaction values. This trait of the model is also apparent during transitions, and species are far more likely to be dominant during q-ESSs if they have large interactions. As figure 15 shows, after roughly generation 1000, the  combined interaction(CB) ($J_{a,b}+J_{b,a}$) of the dominant species is $>1.5$. 
+Using this fact we may be able to treat the system in terms of record statistics. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Correlation.png}
+	\caption{The combinded interactions of the two dominant species($J_{a,b}+J_{b,a}$) over 10000 generations. It is clear that species with a CB$>1.5$ are preferred strategies.}
+\end{figure}
+\subsection{Statistics}
+In order to record when transitions happen, they need to be more thouroughly defined. There are a few ways this can be done. In the Tana model this is often done by detecting a mass extinctions. However since in in the DisTana model, there usual exists only two or three major species at one time, this method is less useful. \\
+In this report, the start of a transiton will be defined as a change in the dominant species, and the transition ends when the new dominant species stablise again and atleast one of the two old dominant species has become extinct. This final caveat avoids recording 3 dimensional q-ESS's with fluctuating populations as transitions, an example of which is shown in figure 6(c).\\
+In order to detect a transition in the data, an alogithm was created that iterates through the generations, monitoring the species labels of the largest population in both genespaces, comparing it to the last iteration. If the dominant species at the $i$th generation are not the same as at the $i+x$th generation, then we can assume that a transiton has started. A transition ends when for $j>i+x$, we have that the dominant species  of the $j$th generation are the same as the $j+x$th generation, and a new q-ESS has been reached. It is at this point we record the event if one of the old dominate species has a population less than 5\% of the overall population. This is the threshold used before to determine 2 dimensional states. Figure 17 shows a flow diagram of the process.\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.75\textwidth]{Statistics2.png}
+	\caption{Flow chart of the algorithm used to detect and record transitions.}
+\end{figure}
+The variable $x$ acts as the sensitivity of the algorithm. If $x=1$ then the algorithm will check for differences every generation. One might think that $x=1$ may be prone to overcounting, however this is not the case. Since the algorithm also searches for an extinction, in the majority of transitions 1 generation is not long enough for this to happen. Therefore we observe the opposite happening, and undercounting is a big problem. With large x ($x=100$ for example) undercounting is also a problem, although the majoirty of transitions are usually recorded. A more relevant problem is that of position. Since the algorithm records at the end of each 100 iterations, transitons although recorded will only be recorded to the nearest 100th generation. Although this is not much of a problem when looking at a single population it may become one when determining frequency distributions.
+\begin{figure}[H]
+			\makebox[\linewidth][c]{%
+				\begin{subfigure}{.4\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{Transitionx=1.png}
+					\caption{}
+				\end{subfigure}%
+				\begin{subfigure}{.4\textwidth}
+					\centering 
+					\includegraphics[width=\textwidth]{Transitionx=10.png}
+					\caption{}
+				\end{subfigure}
+				\begin{subfigure}{.4\textwidth}
+					\centering 
+					\includegraphics[width=\textwidth]{Transitionx=100.png}						\caption{}
+				\end{subfigure}
+			}
+			\caption{(a) and (b) show the population of a particularly turbulent simulation, with parameters $L_{1,2} =8$, $\theta = 0.25$, $p_{mut}=0.005$, $p_{kill}=0.2$, $k=1.3$, $\mu=0.007$. The dashed lines show the transitions recorded with different sensitivities. (a) $x=1$, many of the transitions have not been successfully recorded. (b) $x=10$, all transitions have been recorded accurately, but there are signes of over counting. (c)$x=100$ The majority of transitions are records, however do not reflect the actually transition times. }
+\end{figure}
+
+\subsection{Record Statistics}
+Record statistics are concerned with the time distribution between consecutive records of a certain measurement. For example, if a record statistic is recorded, how long will it be until the next? Using techniques illustrated in .... a surprisingly simple distribution can be deduced\\
+Consider a sequence of independent and identically distributed stochastic variables.
+\begin{equation}
+\nu_0,\nu_1,...\nu_N,\nu_{N+1},...
+\end{equation}
+Let $P_N$ be the probability that the variable $\nu_N$ is a record. This probability can therefore be described as
+\begin{equation}
+P_N = \int_{\infty}^{-\infty}Prob\{max[\nu_0,\nu_1,...\nu_{N-1},] < x\}P_\nu(x) dx
+\end{equation}
+Where $P_\nu$ is the shared probability density function of varaible $\nu$. Also , since we assume that each $\nu$ are independent
+\begin{equation}
+Prob\{max[\nu_0,\nu_1,...\nu_{N-1},] < x\}=Prob\{\nu_0< x\}Prob\{\nu_1<\}...Prob\{\nu_{N-1}<\} \\
+=[F_{\nu}(x)]^N
+\end{equation}
+And therefore the probability can be expressed as 
+\begin{equation}
+P_N = \int_{\infty}^{-\infty}[F_{\nu}(x)]^NP_\nu(x) dx
+\end{equation}
+Using the identitiy that $P_\nu(x) = \frac{dF_\nu(x)}{dx}$ We optain the surprising result
+\begin{equation}
+P_N = \int_{\infty}^{-\infty}[F_\nu(x)]^N \frac{dF_\nu(x)}{dx} dx \\
+= \int_{\infty}^{-\infty}[F_\nu(x)]^N dF_\nu(x) = \frac{1}{N}
+\end{equation}
+Although the value of the record statistics will be dependent on the distribution of $\nu$, the actually time for a record is only dependent on the number of trials that have came before.\\
+Assume the this sequence carries on and we hit another record. In order to find time between the records we consider the sequence
+\begin{align*}
+	&[0,m_1, m_2, ...m_{n-1}]\\
+	&0<m_1<m_2<...<m_{n-1}
+\end{align*}
+Where $m_i$ is the trial number of the ith record. Then the probability that the statisitcs $v_l$, $l > m_{n-1}$ is the nth record is
+\begin{multline*}
+P_n(l,[0,m_1,m_2,...,m_{n-1}])=\int_{-\infty}^{\infty}P_{\nu}(x_{n-1})F_\nu(x_{m_{n-1}})^{l-m_{n-1}}dx_{n-1}\\
+*\int_{-\infty}^{x_{n-2}}P_{\nu}(x_{n-2})F_\nu(x_{m_{n-2}})^{m_{n-1}-m_{n-2}-1}
+dx_{n-2}...\\
+%\int_{-\infty}^{x_{n-2}}P_{\nu}(x_{n-3}) F_\nu(x_{m_{n-1}})^{m_{n-2}-m_{n-3}-1} dx_{n-3}...\\
+...*\int_{-\infty}^{x_{2}}P_{\nu}(x_{1}) F_\nu(x_{m_{1}})^{m_{2}-m_{1}-1} dx_{1}\\
+*\int_{-\infty}^{x_{1}}P_{\nu}(x_{0}) F_\nu(x_{0})^{m_{1}-1} dx_{0}\\
+\end{multline*}
+Using the substitution derived in (53), the distrubiton becomes.
+\begin{equation}
+P_n(l,[0,m_1,m_2,...,m_{n-1}])= \frac{1}{lm_{n-1}m_{n-2}...m_1m_0}
+\end{equation}
+Since the DisTana model is continuous, we find the limit as $\lvert\nu_n-\nu_{n-1}\rvert\rightarrow0$, let $p_n(t)$ be the continuous limit of $P_n(x)$. $p_n$can be defined as
+\begin{equation}
+p_n(t)= \frac{1}{t}\int_{t_{n-2}}^{t}\frac{dt_{n-1}}{t_{n-1}}\prod_{k=2}^{n-2}
+\int_{t_{k-1}}^{t_{k+1}}\frac{dt_k}{t_k}
+\int_{t_2}^{1} \frac{dt_1}{t_1}\\
+\end{equation}
+Assuming again that the variables are independent
+\begin{align}
+p_n(t)&= \frac{1}{t}\frac{1}{(n-1)!} \int_{1}^{t}\frac{dz}{z}^{n-1}\\[.7em]
+& = \frac{1}{t}\frac{log(t)^{n-1}}{(n-1)!} \quad , \quad n = 1,2,...,\infty
+\end{align}
+Therefore the number of records in at a time follows a log-poisson distribution. The distribution can be throught of a s poisson distribution with varying rate log(t).
+\section{Transiton Distribution}
+Using the method of record statisitics and assuming that the distribution is log-poisson one would expect that the average number of transitions to be
+\begin{equation}
+E(n)= log(t)
+\end{equation}
+This is indeed the case with the original Tana model, and so is a good place to start. However, as Figure 20 shows, this is not the case. Infact the distribution more resembles a powerlaw. Therefore the mean number of transitions can be described by
+\begin{equation}
+E(n) = b*t^\alpha
+\end{equation}
+For some exponent $\alpha$ and scaling constant $b$. Figure 20 shows the rate of transitions for different sensitivities, in this case the naive exponent $x =-0.71$. If the average transiton followed a logarithmic relation, then this exponent would be closer to -1. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\textwidth]{Cumulative.png}
+	\caption{Blue shows the cumulative mean transition for the standard parameters. The black line shows an example of a logarithmic curve, and the red line in an example of a powelaw relation, $f(x) \sim x^\alpha$, $\alpha = 0.31$. It is apparent that the data more closely fits a a powerlaw.}
+\end{figure}
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.33\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{sensitivity50.png}
+			\caption{}
+		\end{subfigure}
+		%
+		\begin{subfigure}{.33\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{sensitivity10.png}
+			\caption{}
+		\end{subfigure}
+		%
+		\begin{subfigure}{.33\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{sensitivity1.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{Blue shows the mean frequency of transtions for 10,000 generation over 400 trials. The orange line is an apporximate attempt at describing the relation ($\alpha = -0.71$). Each figure shows data captured using different sensitivities $x$ (As described in chapter 9). (a) has $x=50$, (b) has $x=10$ and (c) $x=1$.   }
+\end{figure}
+Figure 21 shows the affect of sensitivity on the distribution. One can see that the overall behaviour of transition rate is similar for in the cases of x=10 and x=50. Both follow the same powerlaw, the only difference being the aplitude of each distribution. This can be judged by the vertical axis intercept. This is to be expected as the larger $x$ means that more events will be captured by the point, so there are less points with higher frequency. Conversely, with a small sensitivity there are more points with lower frequencies.\\
+There is so correction to initial conditions, which is visible in both cases, however is more prominent and defined in the case of x=10. Therefore for the statisitcs x=10 shall be used as the smaller bin sizes allows for a more detailed picture of the distribution. \\
+x=1 follows a very different distribution, and does not reflect the actual distribution of transitions. This is due to effects mentioned in chapter 8.1.
+\section{K-dependence}
+Since the behaviour of the system appears to follow a power law, it is useful to vary parameters in order to determine if any dependence exists. \\
+The most intuitive parameter to consider in $k$. As shown before the transtions between states usually between states of equal or similar interaction strength(Similar J entries). Since $k$ acts as an amplifier for the interaction strengths, changing this may indeed have an affect on the behaviour of the system.
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{Dist2.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{Dist4.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{(a) shows the raw mean transition frequency data for $k=0.3$(blue), $0.5$(orange), $0.7$(yellow),$1.0$(purple) ,$1.3$(green), over 400 trials. (b) Shows the Log-Binned data with fits determined by the least square regression for the points passed the intial scaling 'hook'($<100$).}
+\end{figure}
+As Figure 22 shows, the frequency of transitions. These distributions follow a powerlaw, as shown be the straight line in in the loglog plots. However this powerlaw changes with $k$. E.i the distribution follows the relation
+\begin{equation}
+	\langle r_T \rangle \sim t^{\gamma(k)}
+\end{equation}
+Figure 23 helps to map out this relation, however in order to determine $\alpha(k)$ more accuratley, analysis must be carried out on extreme $k$ ($k>\xi$).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{Dist5.png}
+	\caption{The gradient of the slope in loglog space for a transition frequency distribuiton for a given k.}
+\end{figure}
+%\begin{figure}[H]
+%\makebox[\linewidth][c]{%
+%	\begin{subfigure}{.5\textwidth}
+%		\centering
+%		\caption{}
+%	\end{subfigure}%
+%	\begin{subfigure}{.5\textwidth}
+%		\centering 
+%		\includegraphics[width=\textwidth]{Query2.png}
+%		\caption{}
+%	\end{subfigure}
+%}
+%\end{figure}
+%\begin{figure}
+%		\centering
+%		\includegraphics[width=\textwidth]{Query3.png}
+%		\caption{}
+%\end{figure}
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.4\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{5alive.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.4\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{5alive2.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{}
+\end{figure}
+Although transition data can be gained from high k, one must be careful when using it. For instance if the extinction rate is high, then this many of the trials to not reach higher generations. This may intern increase the powerlaw relationship to larger than is correct. This effect is apprent in figure 24 however is very slight, differing the LSR gradient from -0.956 when including trials which undergo extinction, to -0.910 when removing trials that become extinct. When trying to determine the powerlaw however, I shall only be considering trials where extinction does not occur.\\
+Using intuition gained from figure 21, the powerlaw $\gamma(k)$ appears to be following a power law or exponential decay, and therefore may be tending towards a limit. Since we know from previous studies that the transtions in the Tana model follow a log poisson distribution, assuming that -1 is the limiting case  of $\gamma(k)$ might be a good place to start.\\
+Using this assumpition we can decompose the function into $\gamma(k) = \alpha(k) -1$, where $\alpha(k) \rightarrow 0$ as $k \rightarrow \infty$.
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{k.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{klog.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{A plot of the $\alpha(k)$ versus $k$. The black crosses are data points and the red line repesents the LSR fit emprically deduced. The power law is -0.762. }
+\end{figure}
+Figure 25 shows the relation between $\alpha$ and $k$. In the loglog plot, the data points follow a linear regression, this is indicative of a powerlaw relation. Using this knowledge, we deduce that the powerlaw $\alpha(k)$ also follows a powerlaw relation with $k$, $\alpha \sim k^\beta$.
+Therefore we can derive an empirically deduced function for the dependance of the rate of transition on k as,
+\begin{equation}%
+% \scalebox{1.5}{ % (c)
+\large	\langle r_T \rangle \sim t^{bk^\beta -1}
+\end{equation}%
+% } % (c)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\textwidth]{k2.png}
+	\caption{}
+\end{figure}
+Where $\beta$ and $b$ have been approximated as -0.7623 and -0.531 respectively. Using this insight sheds light onto why the Tana model, which is usually simulated with large $k$(k=40 is standard) follows a logarithmic transition distribution. For large k an approximation can be made that  $\langle r_T \rangle \approx -1$. However because of the increasing likelyhood of extinction , this characteristic only really comes to light in the DisTana model, where sall $k$ is a necessity of the model. 
+\subsection{No interaction} 
+In order to understand this power law behaviour in greater detail, it is useful to look at the model when $k=0$. This will allow us to determine which parts of the behaviour are independent of k.
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{Noint5.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{Noint2.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{(a) loglog plot of transition frequencies, with a predicted fit (orange). (b) cumulative frequency plot (blue,), predicited linear fit (red) with gradient= 0.0127}
+\end{figure}
+Figure 27(a) shows that the rate of transtions for large generations follows an exponent of 0, i.e. a constant rate. 
+%This is equivelant to the transition being distributed uniformly across the generations.
+ This is not surprising, as in the case that $k=0$ there is no preferenece of one state over another, therefore the dominant species switches randomly as the populations fluctuates with stochastic brownian motion. \\ 
+
+This is equivelant to the behaviour following a point poisson process, where the probability density function is given by
+\begin{equation}
+	P\{N(t)=n\}=\frac{(\lambda t)^n}{n!}e^{-\lambda t}
+\end{equation}
+Where $\lambda$ is the rate of transition.
+%This is proven by the linear slope of the cumulative frequency plot of transitions shown be figure 27. This is indicative of the frequency following a poisson ditribution ($T \sim Po(0.0127)$), as the mean number of transitons is constant. Therefore the cumulative distribution follows a linear behaviour with gradiant equal to the rate. 
+And therefore the mean number of transitons at a given time $t\ge0$ is given by
+\begin{equation}
+	E(n) = \lambda t
+\end{equation}
+This linear relation is shown in figure 27(b). The experimentally deduced rate is $\lambda=0.01277$
+%\begin{figure}[H]
+%	\makebox[\linewidth][c]{%
+%		\begin{subfigure}{.5\textwidth}
+%			\centering
+%			\includegraphics[width=\textwidth]{Noint5.png}
+%			\caption{}
+%%		\begin{subfigure}{.5\textwidth}
+%			\centering 
+%%			\caption{}
+%		\end{subfigure}
+%	}
+%	\caption{}
+%end{figure}
+
+Even with no interaction strength, initial correction is still visible(figure 27(a)) and is similar to the correction present with $k>0$. Therefore we can assume that the initial correction is independent of $k$.
+The crossover time between this behaviour and the powerlaw may be dependent on $k$, however due to the insenstivity forced by the transiton detection algorithm (x=10), and the fact that this crossover happens at low generations($t_c\approx 100$), it is hard to desrcibe any accurate relation between the crossover time and $k$.\\
+\section{Superpositon Process}
+Although the powerlaw behaviour predicts the behaviour of transitions to a good degree, it is mysterious as to why it happens. 
+A possible explanation is that the rate does not follow a single powerlaw, but a superposition for the logarithmic behaviour expressed by the record statistics, and the  point poisson process exhibited by the $k=0$ model.
+Evidence for this can be seen in Figure 24(k=5). As the generartions grow($\sim 10^3$), the rate of transitions changes from the $t^{-1}$ to a flatter distribution.
+In this case the rate would follow a ditribution described by
+\begin{equation}
+\langle r_T \rangle \sim t^{-1}+ \delta(k)
+\end{equation}
+Where $\delta \rightarrow 0$ as $k \rightarrow \infty$. 
+Therefore combining the two processes, the mean number of transitons will follow
+\begin{equation}
+	E(n)= \epsilon(k)log(t) + \delta(k)t
+\end{equation}
+In order to test whether this behaviour could explain the increasing power law phenomenon, it is important to try and classify transitions, to help distringuish which transtions are caused by which behaviours. This will be donein the next chapter.
+% The reason for this becomes apparent when looking at the populations in the loglog-space. As figure 24 shows there is a sharp decline in population until the equilibrium positions are reached, at which point the choatic behavoiur of the model comes into play. This correction of initial conditions could explain the behaviour for small generation counts.
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=.7\textwidth]{Noint4.png}
+%	\caption{The populations of a simulation. Green is the overall population, blue and red represent the two separate subspaces.}
+	
+%\end{figure}
+\section{Negative Transistions}
+The assumption used in the record stastics derivation of the log-poisson distribution is that with every transtion, the system progresses to a more stable strategy, and therefore a new record is acheived. When applied to the DisTaNa model, this notion translates to the interaction coupling between the two most dominant species ($c_{ab}=J_{ab}+J_{ba}$) always progressively increase. \\
+Whether this assumption is true or not can be tested by comparing the interaction couple at the start of a transition($c_{old}$) and the couple at the end of a transiton($c_{new}$) and taking the difference ($d = c_{old}-c_{new}$). If the theory of record statistics correctly predicts the full behaviour fo the model we would expect transitions with negative '$d$' not to occur or to occur with a relatively low frequency when compare to poistive transitions.\\
+Likewise, the model proposed in chapter 11 (78) can also be tested in a similar manner. Assuming that there is a poisson process involved one would expect a constant rate of negative transitons, since the process would be random and non-preferential. Therefore assuming this model is true, we would expect to see a large constant rate of negative transitions coupled with a decrease in positive transtions indicative of the $t^{-1}$ behaviour.\\
+\begin{figure}
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{loosenessk=0.png}
+			\caption{}
+		\end{subfigure}%
+	}\\
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{loosenessk=3.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{looseness5.png}
+			\caption{}
+		\end{subfigure}
+	}\\
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{loosenessk=13.png}
+			\caption{}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{looseness5=5.png}
+			\caption{}
+		\end{subfigure}
+	}\\	
+	\caption{The number of transtions with differnece couplings changes for different k. Blue shows the number of transtions with positive d, orange shows transtinos with negative d, and yellow is when d=0. (a) k=0, (b) k=0.3, (c) k=0.5, (d) k=1.3 and (e) k=5.}
+\end{figure}
+As figure 28 shows, a large proportion a negative transtions exist in all trials. For k=0 we see that the number of positive transtions is equal to the rate of negative transitions. This is to be expected as there is no preference in the transtions as to which strategies are best, and is indicative of the point poisson porcess explained in chapert 10. The number of zero transitions is vastly higher here accounting for over half of the transitions. This is due to the parameter $\theta=0.25$ which dictates the number of non-zero entries there are. Since the transtions for large generations are uniform we have that the probability of a couple $c(0,0)$ moving to another couple $c(0,0)$ is $(1-\theta)^2=0.56$.\\
+As k increases, the preference to certain states becomes larger. The first sign of the this is the the number of zero transtions, which drop to account for approximatly a third of transtions for k=0.3, and then to basically zero in k=0.5. \\
+As $k$ increases the number of negative transitons also falls in comparison to the number of positive states, however in all 5 figures the frequency of these transiton are not low enough as to be ignored, and this is where the record statistics interpretation fails. There is also evidence of the negative transitons followed a more complex structure that a constant rate, and there is clear dependence on the genertion count, similar to the positive transitons. This also discounts the idea that the model is a superposition of the $k=0$ and $t^{-1}$ behaviours.\\ 
+As $k$ increases there are signs that of the negative transitions becoming less prominent, again pointing toward the idea that the record statistic type explanation is a limiting case of the model. \\
+\section{Population Increase}
+Since the transitions cannot be recorded precisely, it could be more helpful to measure a statistic that can be measured precisely. The population in the TaNa model follows a gradual logarithmic increase known as a 'time arrow' (Figure 4). Since this is a documented phenomenon, it would be right to look at the mean population in the DisTana Model 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\textwidth]{ceiling.png}
+	\caption{k=0.5,1,2,3,5}
+\end{figure}
+As Figure 28 shows, the average population does increase in time ,however with very different behaviour. For all k, all the trial experience a similar initial correction (generations 1-10), after which there is a sharp increase at a given crossover time ($t_c(k)$). After which the population increases asymptotically towards the `ceiling limit'. The ceiling limit is the largest possible configuration allowed by the model, assuming the 2D strategies to account for the majority of strategies.For a given $k$, the largest possible populations occur when the ocuppied species have $c_{ab}=2$. Therefore the cieling population is desciribed by
+\begin{equation}
+N_{max} = \frac{2}{\mu}\left(ln\left(\frac{1-P}{P}\right)+k\right)
+\end{equation}
+This apparent 'upper limit' on the population dependent on $k$, could account for the completely different behaviour. 
+\subsection{Crossover Times}
+Since the crossover times are a lot more obvious when looking at average population, more analysis can be done.SInce the crossover between behaviours in this case is represented by a steep increase,, we determine the crossover time by
+\begin{equation}
+t_c=max\left[\frac{d N}{dt}\right]
+\end{equation} 
+The black points and figure 28 show the respective crossover times calculated using this definition. One can see for smaller $k$ (k=0.5), the crossover time is miss represented under this definition, sing the increase is too small to be correctly calculated. Therefore I will be focusing on $k>1$ For this 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\textwidth]{tc.png}
+	\caption{k=0.5,1,2,3,5}
+\end{figure}
+Using LSR in the log log space the crossover time follows a powerlaw dependance
+\begin{equation}
+t_c \sim k^{-0.92}
+\end{equation}
+The reason for this dependance is unkown. Once thought is that $-0.92 \approx -1$ and that the crossover times scale inversely with $k$. However there is no theory for either explanaition
+\subsection{Data Collapse}
+Since we know how the population limit scales, and how the cross over time scale we can attempt a data collapse. A data collapse is an attempt to map the functions onto a universal function.\\
+The population in time appears to scale according to the ceiling limit (80) and therefore rearranging we find that 
+\begin{equation}
+\frac{\left(\mu N_{max}-2ln\left(\frac{1-P}{P}\right) \right)}{k} = 1
+\end{equation}
+Making this transformation maps the individual cielings onto a universal ceiling at $\mathcal{G(\infty)}=1$ (Figure 31(a)). Figure 31(a) shows that the populations are now scaled in the y-axis. In order to scale in the x axis, one must scale by the cossover times
+\begin{equation}
+t \rightarrow \frac{t}{k^{-0.92}}
+\end{equation}
+
+\begin{figure}[H]
+	\makebox[\linewidth][c]{%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{collapsex.png}
+			\caption{}
+		\end{subfigure}
+		
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[width=\textwidth]{Datacollapse.png}
+			\caption{}
+		\end{subfigure}
+	}
+	\caption{}
+\end{figure}
+Under these transformations one can see that the different trials follow a common behaviour. There are slight differences which could be due to correction to scaling, as it is more obvious in small $k$. \\
+This common behaviour can be described as a univiersal function $\mathcal{G}(x)$ is still 
+\begin{equation}
+	\mathcal{G}\left(\frac{t}{k^{-0.92}}\right)=\frac{\left(\mu N(t;k) - 2ln\left(\frac{1-P}{P}\right)\right)}{k}
+\end{equation}
+The actually theoretical structure of $\mathcal{G}$ is unknown, however it is very different to anything seen in the TaNa model. %Indeed we see in the raw population graph (Figure 29) that for larger k, this Heaviside type behaviour is becoming more aparent. This is very different from the straight time arrow seen in the TaNa model and works against the argument that the behaviour of the TaNa model is the limiting behaviour of the DisTana model.\\
+The difference may come from `ceiling limit' caused by 2-dimensional systems being preferred. In the TaNa model there is no known limition on the number of species in a configuration, and therefore the population capacity would be dependent on the system size $L$. However as discussed, the DisTana forces the dynamics into a 2 species system, which vastly limits the overall population. As $k$ increases this ceiling increases, however for large $k$ the way in which the population increases is obviously different. We see the populations tending towards a Heaviside function centred about $t_c$ rather than the straight 'time arrow' seen in the TaNa model, which alludes to a completely different behaviour. 
+\section{References}
+\textbf{[1]}-Darwin, C. (1859)- \textit{On the Origin of Species}. \\
+\textbf{[2]}-Christensen, K., Di Collobiano, S., Hall, M., Jensen, H. (2002)- \textit{Tangled Nature: A Model of Evolutionary Ecology}. J. theor. Biol. (2002) 216, 73–84  \\
+\textbf{[3]} Sibani P., Jensen H. (2013)Stochastic Dynamics of Complex Sytems, pages 219-244. Imperial College Press\\
+
+\textbf{[4]}-Jones D., Jensen H., Sibani P. (2010)- \textit{Tempo and Model of Evolution in the Tangled Nature Model}. PHYSICAL REVIEW E 82, 036121\\
+\textbf{[5]}
+
+\textbf{[6]}-Shilnikov L., Shilnikov A., Turaev D., Chua, L.(2001)- \textit{Methods of Qualativie Theory in Nonlinear Dynamics} ,page 271. World Scientific.
+
+\textbf{[7]}-Sibani P., Littlewood P., (1993)- \textit{Slow Dynamics from Noise Adaptation} 
+
+\textbf{[8]}
+
+\end{document}
+

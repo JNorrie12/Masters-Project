@@ -5,14 +5,14 @@ using namespace std;
 random_device rd;
 mt19937 eng(rd());
 
-// const int L1=1, genomes1=2 , L2=1, genomes2=2, No1=1000, No2=1000, K=1, generations = 10000;
-// const double theta = 1, pmut = 0.005, pkill = 0.1, c = 2, mu = 0.007;
+const int L1=1, genomes1=2 , L2=1, genomes2=2, No1=1000, No2=1000, K=1, generations = 5000;
+const double theta = 1, pmut = 0.005, pkill = 0.1, c = 2, mu = 0.007;
 
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.1, c = 2, mu = 0.007;
 
-const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
-const double theta = .25, pmut = 0.005, pkill = 0.2, c = 5, mu = 0.007;
+// const int L1=1, genomes1=2 , L2=1, genomes2=2, No1=1000, No2=1000, K=1, generations = 5000;
+// const double theta = .25, pmut = 0.005, pkill = 0.2, c = 5, mu = 0.007;
 //====================================================================================
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.2, c = 1.3, mu = 0.007;
@@ -21,7 +21,7 @@ const double theta = .25, pmut = 0.005, pkill = 0.2, c = 5, mu = 0.007;
 // const int L1=8, genomes1=256 , L2=8, genomes2=256, No1=1000, No2=1000, K=1, generations = 10000;
 // const double theta = .25, pmut = 0.005, pkill = 0.05, c = 10, mu = 0.007;
 
-int Tstart = 370, T = 50;
+int Tstart = 2, T = 1;
 
 const double pi = 3.1415927;
 const int genomes= genomes1+ genomes2; 
@@ -260,9 +260,9 @@ int main(){
         set_species(species);
         
         
-        double J[genomes][genomes]={}; //creates 0 vector
-        // double J[genomes][genomes]={{0,0, 0.5, 0},{0,0,0.52,0},{0.7,0.4,0},{0,0,0,0}};
-    	Create_J(J);
+        // double J[genomes][genomes]={}; //creates 0 vector
+        double J[genomes][genomes]={{0,0, 0.5, 0},{0,0,0.6,0},{0.7,0.4,0},{0,0,0,0}};
+    	// Create_J(J);
 
         vector <int> existent;
         int i, N1, N2, count_gen, step;

@@ -1,0 +1,31 @@
+\contentsline {section}{\numberline {1}Introduction}{4}
+\contentsline {section}{\numberline {2}Tangled Nature Model}{5}
+\contentsline {subsection}{\numberline {2.1}Interaction Matrix}{5}
+\contentsline {subsection}{\numberline {2.2}Behaviour}{6}
+\contentsline {section}{\numberline {3}Disjoint Tangled Nature Model}{8}
+\contentsline {subsection}{\numberline {3.1}Implementation and Behaviour}{9}
+\contentsline {section}{\numberline {4}Equilibrium without interactions}{11}
+\contentsline {section}{\numberline {5}Centre of Mass and Thresholds}{12}
+\contentsline {section}{\numberline {6}Two Dimensional System}{13}
+\contentsline {subsection}{\numberline {6.1}Equilibrium}{13}
+\contentsline {subsection}{\numberline {6.2}Extreme k and Extinctions}{15}
+\contentsline {subsection}{\numberline {6.3}Liner Stability Analysis}{17}
+\contentsline {section}{\numberline {7}3 Dimensional System}{18}
+\contentsline {subsection}{\numberline {7.1}Equilibria}{19}
+\contentsline {subsection}{\numberline {7.2}Negligible Mutation}{19}
+\contentsline {subsubsection}{\numberline {7.2.1}Case (a)- $\boldsymbol {n_1}$ and $\boldsymbol {n_2 >0}$}{20}
+\contentsline {subsubsection}{\numberline {7.2.2}Cases (b) \& (c), $\boldsymbol {n_1 = 0}$ or $\boldsymbol {n_2 = 0}$}{22}
+\contentsline {subsection}{\numberline {7.3}Comparison With Data}{26}
+\contentsline {section}{\numberline {8}Transitions}{26}
+\contentsline {subsection}{\numberline {8.1}Record Statistics}{27}
+\contentsline {subsection}{\numberline {8.2}Statistics}{29}
+\contentsline {section}{\numberline {9}Transition Distribution}{30}
+\contentsline {section}{\numberline {10}K-dependence}{32}
+\contentsline {subsection}{\numberline {10.1}No interaction}{35}
+\contentsline {section}{\numberline {11}Superposition Process}{36}
+\contentsline {section}{\numberline {12}Negative Transitions}{36}
+\contentsline {section}{\numberline {13}Population Increase}{38}
+\contentsline {subsection}{\numberline {13.1}Crossover Times}{39}
+\contentsline {subsection}{\numberline {13.2}Data Collapse}{40}
+\contentsline {section}{\numberline {14}Conclusion}{41}
+\contentsline {section}{\numberline {15}Bibliograpy}{43}

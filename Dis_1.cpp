@@ -5,7 +5,7 @@ random_device rd;
 mt19937 eng(rd());
 
 const int L1=1, genomes1=2 , L2=1, genomes2=2, No=1000, K=1, generations = 10000;
-const double theta= 0, pmut = 0.5, pkill = 0.02, c = 10, mu = 0.005;
+const double theta= 0.25, pmut = 0.05, pkill = 0.02, c = 10, mu = 0.005;
 const double pi = 3.1415927;
 const int genomes= genomes1+ genomes2; 
 int choose_in_range(int a, int b);

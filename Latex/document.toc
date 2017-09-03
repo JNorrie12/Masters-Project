@@ -6,8 +6,8 @@
 \contentsline {subsection}{\numberline {3.1}Implementation and Behaviour}{9}
 \contentsline {section}{\numberline {4}Equilibrium without interactions}{11}
 \contentsline {section}{\numberline {5}Centre of Mass and Thresholds}{12}
-\contentsline {section}{\numberline {6}Two Dimensional System}{13}
-\contentsline {subsection}{\numberline {6.1}Equilibrium}{13}
+\contentsline {section}{\numberline {6}2 Dimensional System}{13}
+\contentsline {subsection}{\numberline {6.1}Equilibrium}{14}
 \contentsline {subsection}{\numberline {6.2}Extreme k and Extinctions}{15}
 \contentsline {subsection}{\numberline {6.3}Liner Stability Analysis}{17}
 \contentsline {section}{\numberline {7}3 Dimensional System}{18}
@@ -27,5 +27,5 @@
 \contentsline {section}{\numberline {13}Population Increase}{38}
 \contentsline {subsection}{\numberline {13.1}Crossover Times}{39}
 \contentsline {subsection}{\numberline {13.2}Data Collapse}{40}
-\contentsline {section}{\numberline {14}Conclusion}{41}
+\contentsline {section}{\numberline {14}Conclusion}{42}
 \contentsline {section}{\numberline {15}Bibliograpy}{43}

@@ -23,7 +23,7 @@ ax1 = fig.add_subplot(111)
 ax1.set_xlabel('Generation')
 ax1.set_ylabel('Population')
 
-ax1.plot(x,y, c='r')
+ax1.plot(x,y, c='r', label='the data')
 
 leg = ax1.legend()
 
@@ -67,16 +67,15 @@ data=[row.split('\t') for row in data]
 
 # fig = plt.figure()
 
-#ax2 = fig.add_subplot(121)
-#ax2.set_xlabel('Generation')
-#ax2.set_ylabel('Species Label')
+# ax2 = fig.add_subplot(121)
+ax1.set_xlabel('Generation')
+ax1.set_ylabel('Species Label')
 for i in range(len(data)-1):
 	x=i*np.ones(len(data[i]))
 	data[i][-1] = data[i][-2]
 	y=[int(j) for j in data[i]]
 	plt.scatter(x, y, color='blue', marker='.', s=5)
-plt.xlabel('Generation')
-plt.ylabel('Species Label')
+
 plt.show()
 
 

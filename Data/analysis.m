@@ -1,7 +1,7 @@
 
 %--------------------------------------------
-J=importdata('16mat.txt');
-B=importdata('16pop.txt');
+J=importdata('1mat.txt');
+B=importdata('1pop.txt');
 x1= B(:, 1);
 x2= B(:, 2);
 x3= B(:, 3);
@@ -11,7 +11,7 @@ plot(x1, x2, 'b', x1, x3, 'r', x1, x4, 'g');
 xlabel('Generations');
 ylabel('Population')
 %--------------------------------------------
-A=importdata('16seppop.txt');
+A=importdata('1seppop.txt');
 [n,m]=size(A);
 
 

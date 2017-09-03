@@ -1,5 +1,5 @@
-x=100; %Sensitivity
-
+x=1; %Sensitivity
+z=0.05;
 %Setting up------------------
 events=[0]; 
 ends = [0];
@@ -13,7 +13,8 @@ str = int2str(t);
     
 SP=importdata( strcat(str , 'seppop.txt'));
 B=importdata(strcat(str, 'pop.txt'));
-   
+J=importdata(strcat(str, 'mat.txt'));
+
 x1= B(:, 1);
 x2= B(:, 2);
 x3= B(:, 3);
@@ -60,4 +61,5 @@ end
 plot(x1, x2, 'b', x1, x3, 'r', x1, x4, 'g');
 hold on;
 plot([ends, ends],[800, 0], 'k--');
-
+xlabel('Generation');
+ylabel('Population');

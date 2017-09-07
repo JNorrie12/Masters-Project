@@ -10,14 +10,13 @@ for j = 2:10000/bin_width + 1
 end
 
 %Setting up------------------
-events=[0]; 
-ends = [0];
-couplings=[0];
+events=[]; 
+ends = [];
+couplings=[];
 w=0;
-zeroes=0;
+zeroes=[];
 T = 400;
 for t = 1: T
-    
    str = int2str(t);
     
    SP=importdata( strcat(str , 'seppop.txt'));
@@ -28,7 +27,6 @@ for t = 1: T
    bool=false;
    [M1,I1]=max(SP(1,2:257));
    [N1,J1]=max(SP(1,258:513));  
-  
    
    start=zeros(2,1);
    pop=zeros(2,1);
@@ -40,10 +38,8 @@ for t = 1: T
         if (I1 ~= I2 || J1 ~= J2) && (bool==false)         
             start(1,1)=1 + I1;
             start(2,1)=257 + J1;
-            bool = true; 
-           
-            %coupling
             
+            bool = true; 
         end
         
         if (I1 == I2 && J1 == J2) && (bool==true)
@@ -59,12 +55,6 @@ for t = 1: T
                 if J(I2, 256 + J2)==0 || J(256 + J2, I2)==0
                 zeroes=cat(1,zeroes, k);
                 end
-                
-%                 disp(J2);
-%                 disp(I2);
-                disp(J(I2, 256 + J2));
-                disp(J(256 + J2, I2));
-                
                 
                 ends=cat(1,ends, k);
             end
@@ -99,7 +89,7 @@ end
 histo=zeros(10000/bin_width,1);
 for f=1:max(I)
     for e=1:10000/bin_width
-        if (A(f) >= edges(e,1)) && (A(f) < edges(e+1,1));
+        if (A(f) >= edges(e,1)) && (A(f) < edges(e+1,1))
            disp(edges(e,1));
            disp(A(f));
            disp(edges(e+1,1));

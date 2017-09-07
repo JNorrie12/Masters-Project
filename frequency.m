@@ -21,27 +21,8 @@ for j =1:T
     loglog(bin_middle, mean, 'x');
     hold on;
     disp('BLOOP');
-%     figure
-%     plot(bin_middle, mean);
-
-    %-----------------------------------
-%Moving average
-    mov=zeros(10000,1);
-    width=101;
-    side=(width-1)/2;
-
-    mov(1:side, 1)=mean(1, 1:side);
-    for i= 1+side:10000-side
- 
-        mov(i,1)=sum(mean(1 , i-side:i+side))/width ;    
- 
-    end
-
-%    loglog(bin_middle, mov);
-%     hold on;
-    
 end
-xlim([5,160]);
+
 cummean= cumsum(mean);
 figure
 plot(bin_middle, cummean);

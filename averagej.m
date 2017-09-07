@@ -1,4 +1,4 @@
-trial='50';
+trial='3';
 
 ends=importdata(strcat('10ends', trial, '.mat'));
 couplings=importdata(strcat('10couplings',trial, '.mat'));
@@ -11,7 +11,7 @@ for j = 2:10000/bin_width + 1
     edges(j,1)=edges(j-1,1)+ bin_width;
 end
 
-    bin_middle = zeros(10000/bin_width,1);
+bin_middle = zeros(10000/bin_width,1);
 for e = 1:10000/bin_width
     bin_middle(e,1)=sqrt(edges(e,1)*edges(e+1,1));
 end
@@ -59,44 +59,33 @@ histo=histo./(count2.');
 %-----------------------------------
 %Moving average
 mov=zeros(10000/bin_width,3);
-width=51;
+width=21;
 side=(width-1)/2;
 
 mov(1:side, 1)=histo(1:side, 1);
-mov(1:side, 2)=negpos(1:side,1);
-mov(1:side, 3)=negpos(1:side,2);
-mov(1:side, 4)=negpos(1:side,3);
+mov(1:side, 2:4)=negpos(1:side,1:3);
+
 for i= side +1:10000/bin_width-side
- 
-    
+
     mov(i,1)=sum(histo(i-side:i+side))/width ;    
-    mov(i,2)=sum(negpos(i-side:i+side, 1 ))/width;
-    mov(i,3)=sum(negpos(i-side:i+side, 2 ))/width;
-    mov(i,4)=sum(negpos(i-side:i+side, 3))/width;
+    mov(i,2:4)=sum(negpos(i-side:i+side, 1:3 ))/width;
     
 end
-
-% hold on;
-% plot(bin_middle, histo);
-% hold on;
-% plot(bin_middle, mov(:,1), bin_middle, mov(:,2)-0.5);
 
 plot(bin_middle, mov(:,2),bin_middle, mov(:,3), bin_middle, mov(:,4));
 hold on;
 plot(q,0*q./q, 'k--');
 xlim([0,2000]);
-xlabel('Generations');
+xlabel('Generation');
 ylabel('Number of Transitons');
 % plot(bin_middle, negpos(:,1)-0.5, q, 0*q./q, 'k--');
 % xlim([0,2000]);
-figure
-loglog(bin_middle, mov(:,2)-mov(:,3), q, 3000*q.^(-1));
-figure
-plot(bin_middle, mov(:,2)./(mov(:,2)+mov(:,3)), q, 0.5*q./q, 'k--');
-% xlim([0,5000]);
-figure
-plot(bin_middle,histo+1.5);
-hold on;
-loglog(q,1.5*q./q, 'k--');
 % figure
-% plot(zeroes, zeroes./zeroes, 'x');
+% loglog(bin_middle, mov(:,2)-mov(:,3), q, 3000*q.^(-1));
+% figure
+% plot(bin_middle, mov(:,2)./(mov(:,2)+mov(:,3)), q, 0.5*q./q, 'k--');
+% xlim([0,5000]);
+%figure
+% plot(bin_middle,histo+1.5);
+% hold on;
+% loglog(q,1.5*q./q, 'k--');

@@ -2,14 +2,14 @@ v=[3, 5, 7,10, 13, 16, 20, 30, 50];
 norm=[200,200,400,400,400, 365, 345, 428, 224];
 T=9;
 
-% colors= [0 ,0.4470, 0.7410; 0.85, 0.325, 0.0980; 0.9290, 0.6940, 0.1250;0.494,0.1840,0.5560; 0.4660, 0.6740, 0.1880];
+colors= [0 ,0.4470, 0.7410; 0.85, 0.325, 0.0980; 0.9290, 0.6940, 0.1250;0.494,0.1840,0.5560; 0.4660, 0.6740, 0.1880];
 sensitivity ='10';
 
 % const=zeroes(T,1);
 power=zeros(T,1);
 f1 = figure;
-f2 = figure;
-f3 = figure;
+% f2 = figure;
+% f3 = figure;
 for k =1:T
     str= int2str(v(1,k));
     ends=importdata(strcat(sensitivity ,'ends', str, '.mat'));
@@ -26,7 +26,6 @@ for k =1:T
     bin_width=zeros(1, N+1);
     edges(1,1)=i;
     
-    
     for j=1:N+1
         edges(j+1, 1)= edges(j,1) + b;
         bin_width(1, j) = b; 
@@ -35,13 +34,11 @@ for k =1:T
     [count, edge]=histcounts(ends, edges);
 %------------------------------------
     %Bin_Middles%
-    
     bin_middle = zeros(N+1,1);
     
     for e = 1:N+1
         bin_middle(e,1)=sqrt(edges(e,1)*edges(e+1,1));
     end
-    
 %------------------------------------
    mean=count./(bin_width*norm(1,k));
    
@@ -60,7 +57,6 @@ for k =1:T
 %    figure;
 %-------------------------------------------------   
  
-
     first=find(~mean, 1, 'last');    
     for g=1:N-1
         if bin_middle(g,1)>100
@@ -72,7 +68,6 @@ for k =1:T
     z=log(mean);
     coeff=polyfit(y(g:end,1).', z(1,g:end),1);
     if v(1,k)==50
-        disp('B');
         coeff(1,1)=-0.910;
     end
     
@@ -88,31 +83,26 @@ for k =1:T
 %         hold on;
 %     end
  
-%      loglog(x, exp(coeff(1,2))*x.^coeff(1,1), 'Color', colors(k,:));
-%     loglog(x, exp(coeff(1,2))*x.^coeff(1,1));
-%      hold on;
+    loglog(x, exp(coeff(1,2))*x.^coeff(1,1), 'Color', colors(k,:));
+    hold on;
     power(k,1)=coeff(1,1);
     const(k,1)=coeff(1,2);
-    loglog(bin_middle , mean); 
-%     loglog(bin_middle , mean, 'x', 'Color', colors(k,:)); 
+    loglog(bin_middle , mean, 'x', 'Color', colors(k,:)); 
     hold on;
     xlim([10 10000]);
 %----------------------------------------------------
-    collapse=mean.'./(exp(coeff(1,2))*bin_middle.^(coeff(1,1)) );
+%     collapse=mean.'./(exp(coeff(1,2))*bin_middle.^(coeff(1,1)) );
     
-    set(0, 'CurrentFigure', f2);
-    loglog(bin_middle, collapse);
-    hold on;
+%     set(0, 'CurrentFigure', f2);
+%     loglog(bin_middle, collapse);
+%     hold on;
     
-    coll2=1.2-collapse;
-    set(0, 'CurrentFigure', f3);
-    loglog(bin_middle./(exp(coeff(1,2))*bin_middle.^(coeff(1,1))), collapse);
-    hold on;
+    %coll2=1.2-collapse;
+    %set(0, 'CurrentFigure', f3);
+    %loglog(bin_middle./(exp(coeff(1,2))*bin_middle.^(coeff(1,1))), collapse);
+    %hold on;
 end   
-% v=cat(2,0,v);
-% power=cat(1,0,power);
 
-% figure;
 q=linspace(0.2,6,100);
 figure
 fit=polyfit(log(v(1,1:T)/10), log(power+1).', 1);
@@ -134,5 +124,3 @@ plot(q, exp(fit(1,2))*q.^fit(1,1)-1, 'r--', q, -q./q, 'k--');
 xlabel('k')
 ylabel('\gamma(k)')
 ylim([-1.2, 0]);
-% figure
-% plot(v(1,1:T+1)/10, const, 'o');

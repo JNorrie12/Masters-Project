@@ -1,4 +1,4 @@
-v=[3, 5, 7,10, 13, 16, 20, 30, 50];
+v=[3, 5, 7,10, 13, 16,open time 20, 30, 50];
 
 
 T=5;
@@ -10,6 +10,7 @@ power=zeros(T,1);
 f1 = figure;
 f2 = figure;
 f3 = figure;
+
 for k =1:T
     str= int2str(v(1,k));
     ends=importdata(strcat(sensitivity ,'ends', str, '.mat'));

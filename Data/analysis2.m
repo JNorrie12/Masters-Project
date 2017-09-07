@@ -1,4 +1,4 @@
-J=importdata('4mat.txt');
+J=importdata('1mat.txt');
 
 display(J(378, 68)); %302 -> 115
 display(J(346, 68)); %115 -> 302
@@ -8,8 +8,8 @@ display(J(496, 195));
 
 
 %--------------------------------------------
-J=importdata('4mat.txt');
-B=importdata('4pop.txt');
+J=importdata('1mat.txt');
+B=importdata('1pop.txt');
 x1= B(2050:2300, 1);
 x2= B(:, 2);
 x3= B(:, 3);
@@ -19,7 +19,7 @@ x4= B(:, 4);
 % xlabel('Generations');
 % ylabel('Population')
 %--------------------------------------------
-A=importdata('4seppop.txt');
+A=importdata('1seppop.txt');
 [n,m]=size(A);
 
 
@@ -80,4 +80,3 @@ plot(x1, CCom1,'g' , x1, CCom2, 'g');
 xlabel('Population');
 xlim([2050,2300]);
 ylabel('Species Label');
-

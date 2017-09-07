@@ -8,8 +8,8 @@ for j = 1:10001
 end
 
 %Setting up------------------
-events=[0]; 
-ends = [0];
+events=[]; 
+ends = [];
 T = 400;
 for t = 1: T
     

@@ -1,18 +1,17 @@
-x=10; %Sensitivity
-z= 0.05; %Threshold
-bin_width=100;
-%----------------------------
+%Parameters.
+x=10; %Sensitivity.
+z= 0.05; %Threshold.
+bin_width=10;
+%Set up bins.
 edges=zeros(10000/bin_width + 1,1);
 edges(1,1)=0;
 for j = 2:10000/bin_width + 1
    
     edges(j,1)=edges(j-1,1)+ bin_width;
 end
-
-%Setting up------------------
-events=[]; 
-ends = [];
-couplings=[];
+%Set up outputs.
+ends = []; %
+couplings=[]; %
 w=0;
 zeroes=[];
 T = 400;

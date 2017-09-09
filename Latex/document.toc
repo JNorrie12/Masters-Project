@@ -13,21 +13,21 @@
 \contentsline {subsection}{\numberline {6.3}Liner Stability Analysis}{19}
 \contentsline {section}{\numberline {7}3 Dimensional System}{20}
 \contentsline {subsection}{\numberline {7.1}Equilibria}{21}
-\contentsline {subsection}{\numberline {7.2}Negligible Mutation}{22}
+\contentsline {subsection}{\numberline {7.2}Negligible Mutation}{21}
 \contentsline {subsubsection}{\numberline {7.2.1}Case (a)- $\boldsymbol {n_1}$ and $\boldsymbol {n_2 >0}$}{22}
 \contentsline {subsubsection}{\numberline {7.2.2}Cases (b) \& (c), $\boldsymbol {n_1 = 0}$ or $\boldsymbol {n_2 = 0}$}{25}
 \contentsline {subsection}{\numberline {7.3}Comparison With Data}{29}
 \contentsline {section}{\numberline {8}Transitions}{30}
-\contentsline {subsection}{\numberline {8.1}Record Statistics}{30}
+\contentsline {subsection}{\numberline {8.1}Record Statistics}{31}
 \contentsline {subsection}{\numberline {8.2}Statistics}{32}
 \contentsline {section}{\numberline {9}Transition Distribution}{34}
 \contentsline {section}{\numberline {10}K-Dependence}{36}
-\contentsline {subsection}{\numberline {10.1}No Interaction}{39}
+\contentsline {subsection}{\numberline {10.1}No Interaction}{40}
 \contentsline {section}{\numberline {11}Superposition Process}{41}
-\contentsline {section}{\numberline {12}Negative Transitions}{41}
+\contentsline {section}{\numberline {12}Negative Transitions}{42}
 \contentsline {section}{\numberline {13}Population Increase}{44}
-\contentsline {subsection}{\numberline {13.1}Crossover Times}{45}
-\contentsline {subsection}{\numberline {13.2}Data Collapse}{46}
-\contentsline {section}{\numberline {14}Conclusion}{47}
-\contentsline {section}{\numberline {15}Bibliography}{49}
-\contentsline {section}{\numberline {16}Appendices}{50}
+\contentsline {subsection}{\numberline {13.1}Crossover Times}{46}
+\contentsline {subsection}{\numberline {13.2}Data Collapse}{47}
+\contentsline {section}{\numberline {14}Conclusion}{48}
+\contentsline {section}{\numberline {15}Bibliography}{50}
+\contentsline {section}{\numberline {16}Appendices}{51}
